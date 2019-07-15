@@ -3,6 +3,7 @@
         <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157"
             text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
             <template v-for="item in items">
+                <!--存在子菜单-->
                 <template v-if="item.subs">
                     <el-submenu :index="item.index" :key="item.index">
                         <template slot="title">
@@ -21,6 +22,7 @@
                         </template>
                     </el-submenu>
                 </template>
+                <!--不存在子菜单-->
                 <template v-else>
                     <el-menu-item :index="item.index" :key="item.index">
                         <i :class="item.icon"></i><span slot="title">{{ item.title }}</span>
@@ -37,7 +39,21 @@
         data() {
             return {
                 collapse: false,
-                items: [
+                items: []
+            }
+        },
+        computed:{
+            onRoutes(){
+                return this.$route.path.replace('/','');
+            }
+        },
+        created(){
+            // 通过 Event Bus 进行组件间通信，来折叠侧边栏
+            bus.$on('collapse', msg => {
+                this.collapse = msg;
+            })
+            // 初始化items
+            this.items=[
                     {
                         icon: 'el-icon-lx-home',
                         index: 'dashboard',
@@ -132,20 +148,38 @@
                         icon: 'el-icon-lx-redpacket_fill',
                         index: '/donate',
                         title: '支持作者'
+                    },
+                    //新添项
+                     {
+                        icon: 'el-icon-lx-edit',
+                        index: '/mzManage',
+                        title: '媒资管理'
+                    },
+                    {
+                        icon: 'el-icon-lx-record',
+                        index: '/injRecord',
+                        title: '注入记录'
+                    },
+                    {
+                        icon: 'el-icon-lx-settings',
+                        index: '6',
+                        title: '综合管理',
+                        subs: [
+                            {
+                                index: 'accManage',
+                                title: '账号管理',
+                            },
+                            {
+                                index: 'dialog',
+                                title: 'CP管理',
+                            },
+                             {
+                                index: 'dialog',
+                                title: '业务元数据管理',
+                            }
+                        ]
                     }
-                ]
-            }
-        },
-        computed:{
-            onRoutes(){
-                return this.$route.path.replace('/','');
-            }
-        },
-        created(){
-            // 通过 Event Bus 进行组件间通信，来折叠侧边栏
-            bus.$on('collapse', msg => {
-                this.collapse = msg;
-            })
+                ];
         }
     }
 </script>

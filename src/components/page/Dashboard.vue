@@ -237,7 +237,7 @@
 
     .grid-content {
         display: flex;
-        align-items: center;
+        align-: center;
         height: 100px;
     }
 
@@ -288,7 +288,7 @@
 
     .user-info {
         display: flex;
-        align-items: center;
+        align-: center;
         padding-bottom: 20px;
         border-bottom: 2px solid #ccc;
         margin-bottom: 20px;

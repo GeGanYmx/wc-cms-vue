@@ -16,6 +16,7 @@ export default new Router({
             children:[
                 {
                     path: '/dashboard',
+                    //路由懒加载：提高页面加载效率
                     component: resolve => require(['../components/page/Dashboard.vue'], resolve),
                     meta: { title: '系统首页' }
                 },
@@ -101,6 +102,22 @@ export default new Router({
                     path: '/donate',
                     component: resolve => require(['../components/page/Donate.vue'], resolve),
                     meta: { title: '支持作者' }
+                },
+                //新添路由
+                {
+                    path: '/mzManage',
+                    component: resolve=> require(['../components/page/MzManage.vue'], resolve),
+                    meta: { title: '媒资管理'}
+                },
+                {
+                    path: '/injRecord',
+                    component: resolve=> require(['../components/page/InjectRecord.vue'], resolve),
+                    meta: { title: '注入记录'}
+                },
+                {
+                    path: '/accManage',
+                    component: resolve=> require(['../components/page/AccManage.vue'], resolve),
+                    meta: { title: '账号管理'}
                 }
             ]
         },
