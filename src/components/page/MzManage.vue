@@ -32,9 +32,20 @@
     </section>
     </header>
     <article class="table">
-      <div style="margin-bottom: 10px;">
+      <div style="margin-bottom: 10px;position: relative;">
         <el-button type="primary">搜索</el-button>
         <el-button type="primary">重置</el-button>
+        <div style="position:absolute;right:50px;display:inline-block">
+            <el-tooltip content="筛选列" placement="top">
+            <el-button type="primary" icon="el-icon-edit"></el-button>
+            </el-tooltip>
+            <el-tooltip content="打印" placement="top">
+            <el-button type="primary" icon="el-icon-share"></el-button>
+             </el-tooltip>
+             <el-tooltip content="导出" placement="top">
+            <el-button type="primary" icon="el-icon-delete"></el-button>
+            </el-tooltip>
+        </div>
       </div>
       <el-table :data="vArr" border style="width: 100%;font-size:0.8rem" stripe>
         <el-table-column fixed prop="date" label="视频名称" width="150"></el-table-column>
