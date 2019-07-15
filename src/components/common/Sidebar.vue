@@ -162,7 +162,7 @@
                     },
                     {
                         icon: 'el-icon-lx-settings',
-                        index: '6',
+                        index: '8',
                         title: '综合管理',
                         subs: [
                             {
@@ -170,11 +170,11 @@
                                 title: '账号管理',
                             },
                             {
-                                index: 'dialog',
+                                index: 'cpManage',
                                 title: 'CP管理',
                             },
                              {
-                                index: 'dialog',
+                                index: 'busiManage',
                                 title: '业务元数据管理',
                             }
                         ]

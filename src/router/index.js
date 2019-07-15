@@ -118,6 +118,16 @@ export default new Router({
                     path: '/accManage',
                     component: resolve=> require(['../components/page/AccManage.vue'], resolve),
                     meta: { title: '账号管理'}
+                },
+                {
+                    path: '/cpManage',
+                    component: resolve=> require(['../components/page/CpManage.vue'], resolve),
+                    meta: { title: 'CP管理'}
+                },
+                {
+                    path: '/busManage',
+                    component: resolve=>require(['../components/page/BusManage.vue'], resolve),
+                    meta: { title: '业务元数据管理'}
                 }
             ]
         },
