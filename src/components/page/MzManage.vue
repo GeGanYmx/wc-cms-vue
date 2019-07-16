@@ -132,8 +132,8 @@
       <el-button type="info">导出</el-button>
       <el-button type="info">批量新建</el-button>
     </footer>
-      <transition name="slide">
-      <div id="test" v-if="isFilterShow">
+      <transition name="fade">
+      <div class="filter" v-if="isFilterShow">
         <el-checkbox
           :indeterminate="isIndeterminate"
           v-model="checkAll"
@@ -285,7 +285,7 @@ footer {
 .el-select {
   width: 60%;
 }
-#test {
+div.filter {
   position: absolute;
   top: 29px;
   left: -1px;
@@ -307,10 +307,11 @@ footer {
     left: 77%;
     z-index: 5;
 }
-.slide-enter-active, .slide-leave-active {
+//自定义弹出框过渡动画
+.fade-enter-active, .fade-leave-active {
     transition: opacity 0.5s
 }
-.slide-enter, .slide-leave-to /* .fade-leave-active, 2.1.8 版本以下 */ {
+.fade-enter, .fade-leave-to /* .fade-leave-active, 2.1.8 版本以下 */ {
     opacity: 0;
 }
 </style>
