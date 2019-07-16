@@ -1,16 +1,12 @@
 <template>
-  <div style="width:100%;min-height:720px;display:flex;">
-    <main
-      style="width:30%;min-height:100%;border-right-style: solid;border-width: 1px;border-color: #999;"
-    >
+  <div class="bsContainer">
+    <main>
       <!--组织树-->
-      <header
-        style="width:100%;height:30px;border-bottom-style: solid;border-width: 1px;position: relative;border-color: #999;"
-      >
-        <h2 style="position: absolute;bottom: -15px;z-index: 10;left: 10%;">业务数据树</h2>
+      <header>
+        <h2>业务数据树</h2>
       </header>
-      <article style="padding-top:20px;">
-        <div style="margin-top:20px;">
+      <article>
+        <div>
           <el-button type="primary">增加</el-button>
           <el-button type="warning">编辑</el-button>
           <el-button type="danger">删除</el-button>
@@ -23,32 +19,27 @@
         ></el-tree>
       </article>
     </main>
-    <article style="width:70%;min-height:100%;">
-      <header
-        style="width:100%;height:30px;position:relative;border-bottom-style: solid;border-width: 1px;border-color: #999;"
-      >
-        <h2 style="position: absolute;bottom: -15px;z-index: 10;left: 10%;">业务元数据</h2>
+    <article id="data">
+      <header>
+        <h2>业务元数据</h2>
       </header>
-      <article style="padding-top: 40px;">
-        <div style="margin-bottom: 20px;padding-left: 10px;">
-           <el-button type="primary">添加</el-button>
+      <article>
+        <div class="opDiv">
+          <el-button type="primary">添加</el-button>
           <el-button type="warning">同步</el-button>
-          <el-button type="danger">一键刷新</el-button>
+          <el-button type="warning">一键刷新</el-button>
         </div>
         <el-table :data="vArr" border style="width: 100%;font-size:0.8rem" stripe>
-          <el-table-column fixed prop="date" label="ID" width="150"></el-table-column>
-          <el-table-column prop="name" label="用户登录名" width="0"></el-table-column>
-          <el-table-column prop="province" label="公司名称" width="120"></el-table-column>
-          <el-table-column prop="city" label="是否启用" width="120"></el-table-column>
-          <el-table-column prop="address" label="拥有角色" width="300"></el-table-column>
-          <el-table-column prop="zip" label="开通省份" width="120"></el-table-column>
+          <el-table-column fixed prop="date" label="节点ID" width="150"></el-table-column>
+          <el-table-column prop="name" label="元数据键" width="100"></el-table-column>
+          <el-table-column prop="province" label="元数据值" width="120"></el-table-column>
+          <el-table-column prop="city" label="元数据描述" width="120"></el-table-column>
+          <el-table-column prop="address" label="是否有效" width="300"></el-table-column>
           <el-table-column fixed="right" label="操作" width="240">
             <template slot-scope="scope">
-              <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-              <el-button type="text" size="small">重设密码</el-button>
-              <el-button @click="handleClick(scope.row)" type="text" size="small">启用</el-button>
-              <el-button type="text" size="small">禁用</el-button>
-              <el-button type="text" size="small">删除</el-button>
+                <!--编辑+删除-->
+                <el-button type="primary" icon="el-icon-edit" circle @click="handleClick(scope.row)"></el-button>
+                <el-button type="danger" icon="el-icon-delete" circle @click="handleClick(scope.row)"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -85,7 +76,41 @@ export default {
       defaultProps: {
         children: "children",
         label: "label"
-      }
+      },
+      vArr: [
+            {
+              date: "2016-05-03",
+              name: "王小虎",
+              province: "上海",
+              city: "普陀区",
+              address: "上海市普陀区金沙江路 1518 弄",
+              zip: 200333
+            },
+            {
+              date: "2016-05-02",
+              name: "王小虎",
+              province: "上海",
+              city: "普陀区",
+              address: "上海市普陀区金沙江路 1518 弄",
+              zip: 200333
+            },
+            {
+              date: "2016-05-04",
+              name: "王小虎",
+              province: "上海",
+              city: "普陀区",
+              address: "上海市普陀区金沙江路 1518 弄",
+              zip: 200333
+            },
+            {
+              date: "2016-05-01",
+              name: "王小虎",
+              province: "上海",
+              city: "普陀区",
+              address: "上海市普陀区金沙江路 1518 弄",
+              zip: 200333
+            }
+          ]
     };
   },
   methods: {
@@ -95,6 +120,45 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang="less" scoped>
+    .header-Base{
+        width:100%;height:30px;border-bottom-style: solid;border-width: 1px;position: relative;border-color: #999;
+    }
+    .h2-base{
+          position: absolute;bottom: -15px;z-index: 10;left: 10%; background: #f0f0f0; padding: 0 10px;
+    }
+    .bsContainer{
+        width:100%;min-height:720px;display:flex;
+    }
+    main{
+        width:30%;min-height:100%;border-right-style: solid;border-width: 1px;border-color: #999;
+        & > header{
+           .header-Base;
+            & h2{
+               .h2-base;
+            }
+        }
+        & > article{
+            padding-top:20px;
+            & div{
+                margin-top:20px;
+            }
+        }
+    }
+    #data{
+        width:70%;min-height:100%;
+        & > header{
+           .header-Base;
+            & h2{
+              .h2-base;
+            }
+        }
+        & > article{
+            padding-top: 40px;
+            & > .opDiv{
+               margin-bottom: 20px;padding-left: 10px;
+            }
+        }
+    }
 </style>
 

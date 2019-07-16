@@ -1,6 +1,6 @@
 <!--新添页面：注入记录-->
 <template>
-  <div style="padding-left:30px;padding-top:30px;width: 100%;min-height: 780px;">
+  <div class="ijContainer">
     <header>
       <label>所属公司：</label>
       <el-select v-model="selComp" placeholder="请选择所属公司">
@@ -17,8 +17,8 @@
       <el-button>重置</el-button>
     </header>
     <article>
-   <div style="margin-bottom: 10px;position: relative;margin-top: 20px;height: 32px;">
-        <div style="position:absolute;right:50px;display:inline-block">
+   <div class="atheader">
+        <div>
             <el-tooltip content="筛选列" placement="top">
             <el-button type="primary" icon="el-icon-edit"></el-button>
             </el-tooltip>
@@ -44,13 +44,13 @@
             <el-table-column prop="zip" label="infoUrl" width="120"></el-table-column>
         <el-table-column fixed="right" label="操作" width="110">
           <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">新增</el-button>
-             <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
+             <el-button type="primary" icon="el-icon-edit" circle @click="handleClick(scope.row)"></el-button>
+             <el-button type="danger" icon="el-icon-delete" circle @click="handleClick(scope.row)"></el-button>
           </template>
         </el-table-column>
       </el-table>
     </article>
-     <footer style="margin-top:20px;">
+     <footer>
       <!--分页-->
       <el-pagination
         @size-change="handleSizeChange"
@@ -125,5 +125,19 @@ export default {
   methods: {}
 };
 </script>
-<style scoped>
+<style lang="less" scoped>
+.ijContainer{
+  padding-left:30px;padding-top:30px;width: 100%;min-height: 780px;
+  & > article{
+    .atheader{
+      margin-bottom: 10px;position: relative;margin-top: 20px;height: 32px;
+     & > div{
+        position:absolute;right:50px;display:inline-block;
+      }
+    }
+  }
+}
+footer{
+  margin-top:20px;
+}
 </style>

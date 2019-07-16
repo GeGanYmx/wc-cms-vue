@@ -1,5 +1,5 @@
 <template>
-   <div style="padding-left:30px;padding-top:30px;width: 100%;min-height: 780px;">
+   <div class="cpContainer">
     <header>
       <label>公司名称：</label>
       <el-input placeholder="请输入公司名称" v-model="vID" clearable style="width:30%"></el-input>
@@ -8,8 +8,8 @@
       <el-button>刷新媒资公司名称</el-button>
     </header>
     <article>
-   <div style="margin-bottom: 10px;position: relative;margin-top: 20px;height: 32px;">
-        <div style="position:absolute;right:50px;display:inline-block">
+   <div class="arHeader">
+        <div>
             <el-tooltip content="筛选列" placement="top">
             <el-button type="primary" icon="el-icon-edit"></el-button>
             </el-tooltip>
@@ -21,21 +21,21 @@
             </el-tooltip>
         </div>
     </div>
-     <el-table :data="vArr" border style="width:61%;font-size:0.8rem" stripe>
-        <el-table-column fixed prop="date" label="ID" width="150"></el-table-column>
-        <el-table-column prop="name" label="CP_CODE" width="200"></el-table-column>
-        <el-table-column prop="province" label="CP名称" width="120"></el-table-column>
+     <el-table :data="vArr" border style="width:65%;font-size:0.8rem" stripe>
+        <el-table-column fixed prop="date" label="ID" width="170"></el-table-column>
+        <el-table-column prop="name" label="CP_CODE" width="220"></el-table-column>
+        <el-table-column prop="province" label="CP名称" width="150"></el-table-column>
         <el-table-column prop="city" label="创建时间" width="200"></el-table-column>
         <el-table-column prop="address" label="修改时间" width="200"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-            <el-button type="text" size="small">删除</el-button>
+            <el-button type="primary" icon="el-icon-edit" circle @click="handleClick(scope.row)"></el-button>
+            <el-button type="danger" icon="el-icon-delete" circle @click="handleClick(scope.row)"></el-button>
           </template>
         </el-table-column>
       </el-table>
     </article>
-     <footer style="margin-top:20px;">
+     <footer>
       <!--分页-->
       <el-pagination
         @size-change="handleSizeChange"
@@ -112,7 +112,18 @@ export default {
     }  
 }
 </script>
-<style scoped>
-   
+<style lang="less" scoped>
+   .cpContainer{
+       padding-left:30px;padding-top:30px;width: 100%;min-height: 780px;
+   }
+   .arHeader{
+       margin-bottom: 10px;position: relative;margin-top: 20px;height: 32px;
+       & div{
+           position:absolute;right:50px;display:inline-block
+       }
+   }
+   footer{
+       margin-top:20px;
+   }
 </style>
 

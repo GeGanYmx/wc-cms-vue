@@ -1,6 +1,5 @@
 <!--新添页面：媒资管理-->
 <template>
-  <!-- <div style="width:100%;height:50px;background-color:red">媒资管理</div> -->
   <div class="mzContainer">
     <header>
       <section>
@@ -69,10 +68,10 @@
       </section>
     </header>
     <article class="table">
-      <div style="margin-bottom: 10px;position: relative;">
+      <div>
         <el-button type="primary">搜索</el-button>
         <el-button type="primary">重置</el-button>
-        <div style="position:absolute;right:50px;display:inline-block">
+        <div>
           <el-tooltip content="筛选列" placement="top">
             <el-button type="primary" icon="el-icon-edit"></el-button>
           </el-tooltip>
@@ -190,7 +189,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang="less" scoped>
 .mzContainer {
   width: 100%;
   min-height: 780px;
@@ -200,16 +199,23 @@ export default {
 ul {
   list-style-type: none;
   margin-top: 20px;
-}
-ul > li {
+  & > li {
   display: inline-block;
   width: 33.3%;
-}
-ul > li > .el-input--small {
+  & > .el-input--small {
   width: 70%;
+   }
+ }
 }
+
 article.table {
   margin-top: 20px;
+  & > div{
+    margin-bottom: 10px;position: relative;
+   & > div{
+     position:absolute;right:50px;display:inline-block
+   }
+  }
 }
 label {
   color: #909399;

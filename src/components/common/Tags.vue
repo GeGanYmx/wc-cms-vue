@@ -112,10 +112,14 @@
 </script>
 
 
-<style>
+<style lang="less">
+     //顶部标签栏的高度和标签的高度
+     @tagsBoxHeight:40px;
+     @tagHeight:@tagsBoxHeight - 10px;
     .tags {
         position: relative;
-        height: 30px;
+        /* height: 30px; */
+        height: @tagsBoxHeight;
         overflow: hidden;
         background: #fff;
         padding-right: 120px;
@@ -135,8 +139,10 @@
         font-size: 12px;
         overflow: hidden;
         cursor: pointer;
-        height: 23px;
-        line-height: 23px;
+        /* height: 23px;
+        line-height: 23px; */
+        height: @tagHeight;
+        line-height: @tagHeight;
         border: 1px solid #e9eaec;
         background: #fff;
         padding: 0 5px 0 12px;
@@ -177,10 +183,14 @@
         padding-top: 1px;
         text-align: center;
         width: 110px;
-        height: 30px;
+        /* height: 30px; */
+        height: @tagsBoxHeight;
         background: #fff;
         box-shadow: -3px 0 15px 3px rgba(0, 0, 0, .1);
         z-index: 10;
+        & .el-button--mini{
+            height: @tagsBoxHeight;
+        }
     }
 
 </style>

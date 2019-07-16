@@ -1,5 +1,5 @@
 <template>
-   <div style="padding-left:30px;padding-top:30px;width: 100%;min-height: 780px;">
+   <div class="acContainer">
     <header>
       <label>公司名称：</label>
       <el-input placeholder="请输入公司名称" v-model="vID" clearable style="width:30%"></el-input>
@@ -9,8 +9,8 @@
       <el-button>新建账号</el-button>
     </header>
     <article>
-   <div style="margin-bottom: 10px;position: relative;margin-top: 20px;height: 32px;">
-        <div style="position:absolute;right:50px;display:inline-block">
+   <div class="arHeader">
+        <div>
             <el-tooltip content="筛选列" placement="top">
             <el-button type="primary" icon="el-icon-edit"></el-button>
             </el-tooltip>
@@ -40,7 +40,7 @@
         </el-table-column>
       </el-table>
     </article>
-     <footer style="margin-top:20px;">
+     <footer>
       <!--分页-->
       <el-pagination
         @size-change="handleSizeChange"
@@ -117,6 +117,17 @@ export default {
     }  
 }
 </script>
-<style scoped>
-   
+<style lang="less" scoped>
+   .acContainer{
+       padding-left:30px;padding-top:30px;width: 100%;min-height: 780px;
+   }
+   .arHeader{
+       margin-bottom: 10px;position: relative;margin-top: 20px;height: 32px;
+      & div{
+           position:absolute;right:50px;display:inline-block
+       }
+   }
+   footer{
+       margin-top:20px;
+   }
 </style>
