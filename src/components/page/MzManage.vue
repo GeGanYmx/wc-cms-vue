@@ -79,7 +79,7 @@
             <el-button type="primary" icon="el-icon-document"></el-button>
           </el-tooltip>
           <el-tooltip content="导出" placement="top">
-            <el-button type="primary" icon="el-icon-download"></el-button>
+            <el-button type="primary" icon="el-icon-download" @click="exportFile"></el-button>
           </el-tooltip>
         </div>
       </div>
@@ -134,7 +134,7 @@
     </footer>
     <!--引入animate动画-->
       <transition name="fade" enter-active-class="animated fadeIn" 
-      leave-active-class="animated fadeOutRight" :duration="200">
+      leave-active-class="animated fadeOutLeft" :duration="200">
       <div class="filter" v-if="isFilterShow">
         <el-checkbox
           :indeterminate="isIndeterminate"
@@ -155,21 +155,11 @@
       <!--上传文件弹出框，待封装-->
       <transition name="fade" enter-active-class="animated fadeIn" 
       leave-active-class="animated fadeOutRight" :duration="200">
-      <div class="filter" v-if="isFilterShow">
-        <el-checkbox
-          :indeterminate="isIndeterminate"
-          v-model="checkAll"
-          @change="handleCheckAllChange"
-        >全选</el-checkbox>
-        <div style="margin: 15px 0;"></div>
-        <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-          <el-checkbox
-            v-for="city in cities"
-            :label="city"
-            :key="city"
-            style="display:block;"
-          >{{city}}</el-checkbox>
-        </el-checkbox-group>
+      <div class="export" v-if="isEpFlieShow">
+          <ul class="ep-ui">
+            <li>导出到Csv文件</li>
+            <li>导出到Excel文件</li>
+          </ul>
       </div>
       </transition>
   </div>
@@ -242,7 +232,8 @@ export default {
       isIndeterminate: true,
       //控制筛选列弹出框的显示
       isFilterShow:false,
-      isEpFlieShow:false
+
+      isEpFlieShow:false,
     };
   },
   methods: {
@@ -264,7 +255,7 @@ export default {
       this.isFilterShow=this.isFilterShow?false:true;
     },
     exportFile(){
-      
+      this.isEpFlieShow=this.isEpFlieShow?false:true;
     }
   }
 };
@@ -312,10 +303,9 @@ footer {
 .el-select {
   width: 60%;
 }
-div.filter {
+.filter {
   position: absolute;
   top: 29px;
-  left: -1px;
   // min-width: 150px;
   min-height: 40px;
   text-align: left;
@@ -331,8 +321,22 @@ div.filter {
     padding: 10px;
     border-radius: 5px;
     top: 267px;
-    left: 77%;
+    right: 180px;
     z-index: 5;
+}
+div.export{
+  .filter;
+right: 80px;
+  & > .ep-ui{
+    margin-top: 0;
+    padding-bottom: 0;
+     & li{
+    color:rgb(144, 147, 153);
+    display: block;width: 100%;
+    margin-bottom: 10px;
+    cursor: pointer;
+   }
+  }
 }
 //自定义弹出框过渡动画
 // .fade-enter-active, .fade-leave-active {
