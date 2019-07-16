@@ -10,6 +10,10 @@ import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
 import './assets/css/icon.css';
 import './components/common/directives';
 import "babel-polyfill";
+//引用animate动画库
+import animate from 'animate.css'
+
+Vue.use(animate);
 
 Vue.config.productionTip = false
 Vue.use(VueI18n);

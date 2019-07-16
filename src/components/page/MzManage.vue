@@ -73,7 +73,7 @@
         <el-button type="info">重置</el-button>
         <div>
           <el-tooltip content="筛选列" placement="top">
-            <el-button type="primary" icon="el-icon-s-fold" @click="getFliterDialog"></el-button>
+            <el-button type="primary" icon="el-icon-s-fold" @click="dataFilter"></el-button>
           </el-tooltip>
           <el-tooltip content="打印" placement="top">
             <el-button type="primary" icon="el-icon-document"></el-button>
@@ -132,7 +132,29 @@
       <el-button type="info">导出</el-button>
       <el-button type="info">批量新建</el-button>
     </footer>
-      <transition name="fade">
+    <!--引入animate动画-->
+      <transition name="fade" enter-active-class="animated fadeIn" 
+      leave-active-class="animated fadeOutRight" :duration="200">
+      <div class="filter" v-if="isFilterShow">
+        <el-checkbox
+          :indeterminate="isIndeterminate"
+          v-model="checkAll"
+          @change="handleCheckAllChange"
+        >全选</el-checkbox>
+        <div style="margin: 15px 0;"></div>
+        <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+          <el-checkbox
+            v-for="city in cities"
+            :label="city"
+            :key="city"
+            style="display:block;"
+          >{{city}}</el-checkbox>
+        </el-checkbox-group>
+      </div>
+      </transition>
+      <!--上传文件弹出框，待封装-->
+      <transition name="fade" enter-active-class="animated fadeIn" 
+      leave-active-class="animated fadeOutRight" :duration="200">
       <div class="filter" v-if="isFilterShow">
         <el-checkbox
           :indeterminate="isIndeterminate"
@@ -215,10 +237,12 @@ export default {
       //筛选列
       checkAll: false,
       checkedCities: [],
-      cities: ["上海", "北京", "广州", "深圳"],
+      cities: ["ID","视频ID", "视频名称", "创建时间", "注入操作",
+         "注入状态","储存状态","储存进度","播放代码","公司名称","视频大小","FTP操作"],
       isIndeterminate: true,
       //控制筛选列弹出框的显示
-      isFilterShow:false
+      isFilterShow:false,
+      isEpFlieShow:false
     };
   },
   methods: {
@@ -236,8 +260,11 @@ export default {
       this.isIndeterminate =
         checkedCount > 0 && checkedCount < this.cities.length;
     },
-    getFliterDialog(){
+    dataFilter(){
       this.isFilterShow=this.isFilterShow?false:true;
+    },
+    exportFile(){
+      
     }
   }
 };
@@ -308,11 +335,11 @@ div.filter {
     z-index: 5;
 }
 //自定义弹出框过渡动画
-.fade-enter-active, .fade-leave-active {
-    transition: opacity 0.5s
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active, 2.1.8 版本以下 */ {
-    opacity: 0;
-}
+// .fade-enter-active, .fade-leave-active {
+//     transition: opacity 0.5s
+// }
+// .fade-enter, .fade-leave-to /* .fade-leave-active, 2.1.8 版本以下 */ {
+//     opacity: 0;
+// }
 </style>
 
