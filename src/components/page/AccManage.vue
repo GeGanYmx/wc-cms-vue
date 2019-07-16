@@ -11,15 +11,15 @@
     <article>
    <div class="arHeader">
         <div>
-            <el-tooltip content="筛选列" placement="top">
-            <el-button type="primary" icon="el-icon-edit"></el-button>
-            </el-tooltip>
-            <el-tooltip content="打印" placement="top">
-            <el-button type="primary" icon="el-icon-share"></el-button>
-             </el-tooltip>
-             <el-tooltip content="导出" placement="top">
-            <el-button type="primary" icon="el-icon-delete"></el-button>
-            </el-tooltip>
+          <el-tooltip content="筛选列" placement="top">
+            <el-button type="primary" icon="el-icon-s-fold"></el-button>
+          </el-tooltip>
+          <el-tooltip content="打印" placement="top">
+            <el-button type="primary" icon="el-icon-document"></el-button>
+          </el-tooltip>
+          <el-tooltip content="导出" placement="top">
+            <el-button type="primary" icon="el-icon-download"></el-button>
+          </el-tooltip>
         </div>
     </div>
      <el-table :data="vArr" border style="width: 100%;font-size:0.8rem" stripe>
@@ -32,10 +32,10 @@
         <el-table-column fixed="right" label="操作" width="240">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-            <el-button type="text" size="small">重设密码</el-button>
-            <el-button @click="handleClick(scope.row)" type="text" size="small">启用</el-button>
-            <el-button type="text" size="small">禁用</el-button>
-            <el-button type="text" size="small">删除</el-button>
+            <el-button type="text" size="small" style="color:#e6a23c">重设密码</el-button>
+            <el-button @click="handleClick(scope.row)" type="text" size="small" style="color: #909399">启用</el-button>
+            <el-button type="text" size="small" style="color: #f56c6c">禁用</el-button>
+            <el-button type="text" size="small" style="color: #f56c6c">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

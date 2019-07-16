@@ -19,15 +19,15 @@
     <article>
    <div class="atheader">
         <div>
-            <el-tooltip content="筛选列" placement="top">
-            <el-button type="primary" icon="el-icon-edit"></el-button>
-            </el-tooltip>
-            <el-tooltip content="打印" placement="top">
-            <el-button type="primary" icon="el-icon-share"></el-button>
-             </el-tooltip>
-             <el-tooltip content="导出" placement="top">
-            <el-button type="primary" icon="el-icon-delete"></el-button>
-            </el-tooltip>
+           <el-tooltip content="筛选列" placement="top">
+            <el-button type="primary" icon="el-icon-s-fold"></el-button>
+          </el-tooltip>
+          <el-tooltip content="打印" placement="top">
+            <el-button type="primary" icon="el-icon-document"></el-button>
+          </el-tooltip>
+          <el-tooltip content="导出" placement="top">
+            <el-button type="primary" icon="el-icon-download"></el-button>
+          </el-tooltip>
         </div>
     </div>
      <el-table :data="vArr" border style="width: 100%;font-size:0.8rem" stripe>
