@@ -52,7 +52,7 @@
                     //用户名和密码校验
                     if (valid) {
                         localStorage.setItem('username',this.ruleForm.username);
-                        axios.post('/login',{
+                        axios.post('login',{
                              username:this.ruleForm.username,
                              password:this.ruleForm.password
                         }).then(res=>{
