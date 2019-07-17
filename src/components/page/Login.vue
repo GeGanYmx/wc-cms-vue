@@ -25,6 +25,7 @@
 </template>
 
 <script>
+    import axios from '../../utils/request'
     export default {
         data: function(){
             return {
@@ -51,6 +52,15 @@
                     //用户名和密码校验
                     if (valid) {
                         localStorage.setItem('ms_username',this.ruleForm.username);
+                        axios.get('/admin/login',{
+                             username:this.ruleForm.username,
+                             password:this.ruleForm.password
+                        }).then(res=>{
+                            console.log('测试访问数据成功')
+                        }).catch(err=>{
+                            console.log('测试失败',err);
+                        })
+              
                         //跳转到主页
                         this.$router.push('/');
                     } else {
