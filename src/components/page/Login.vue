@@ -51,19 +51,25 @@
                 this.$refs[formName].validate((valid) => {
                     //用户名和密码校验
                     if (valid) {
-                        localStorage.setItem('ms_username',this.ruleForm.username);
-                        axios.get('/admin/login',{
+                        localStorage.setItem('username',this.ruleForm.username);
+                        axios.post('/login',{
                              username:this.ruleForm.username,
                              password:this.ruleForm.password
                         }).then(res=>{
-                            console.log('测试访问数据成功')
+                            console.log('测试访问数据成功',res);
+                            localStorage.setItem('token',res.token);
+                              this.$message({
+                                  message: '登录成功！',
+                                  type: 'success'
+                              });    
+                        //跳转到主页
+                        this.$router.push('/');
+
                         }).catch(err=>{
                             console.log('测试失败',err);
                         })
-              
-                        //跳转到主页
-                        this.$router.push('/');
                     } else {
+                        this.$message.error('用户名和密码不能为空！');
                         console.log('error submit!!');
                         return false;
                     }

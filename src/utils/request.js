@@ -4,7 +4,8 @@ import axios from 'axios';
 const service = axios.create({
     // process.env.NODE_ENV === 'development' 来判断是否开发环境
     //配置基路径
-    baseURL: 'https://api-test.ifans.pub/',
+    baseURL: 'http://rap2api.taobao.org/app/mock/225049/',
+    // baseURL: 'http://localhost:3000/',
     timeout: 5000
 })
 
@@ -28,7 +29,7 @@ service.interceptors.response.use(response => {
     return Promise.reject();
 })
 
-axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With';
+// axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With';
 // function get(url,params={}){
 //     let token=sessionStorage.getItem('token')?sessionStorage.getItem('token'):'';
 //     axios.defaults.headers.common['Authorization'] = token;
