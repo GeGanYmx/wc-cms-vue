@@ -30,18 +30,10 @@
           </el-tooltip>
         </div>
     </div>
-     <el-table :data="vArr" border style="width: 100%;font-size:0.8rem" stripe>
-        <el-table-column fixed prop="date" label="ID" width="150"></el-table-column>
-        <el-table-column prop="name" label="cpId" width="0"></el-table-column>
-        <el-table-column prop="province" label="movieId" width="120"></el-table-column>
-        <el-table-column prop="city" label="correlateId" width="120"></el-table-column>
-        <el-table-column prop="address" label="注入状态" width="300"></el-table-column>
-        <el-table-column prop="zip" label="detail" width="120"></el-table-column>
-        <el-table-column prop="zip" label="平台" width="120"></el-table-column>
-        <el-table-column prop="zip" label="path" width="120"></el-table-column>
-         <el-table-column prop="zip" label="创建时间" width="120"></el-table-column>
-          <el-table-column prop="zip" label="更新时间" width="120"></el-table-column>
-            <el-table-column prop="zip" label="infoUrl" width="120"></el-table-column>
+     <el-table :data="injArr" border style="width: 100%;font-size:0.8rem" stripe>
+        <blockquote v-for="item in injTree" :key="item">
+          <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
+        </blockquote>
         <el-table-column fixed="right" label="操作" width="110">
           <template slot-scope="scope">
              <el-button type="primary" icon="el-icon-edit" circle @click="handleClick(scope.row)"></el-button>
@@ -65,6 +57,7 @@
   </div>
 </template>
 <script>
+import axios from "../../utils/request";
 export default {
   data() {
     return {
@@ -86,43 +79,38 @@ export default {
         ],
         selComp:'',
         vID:'',
-        vArr: [
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333
-        }
-      ]
+        test:[
+          {
+            id:'17410',
+            cpId:'test',
+            movieId:'8888888',
+            correlateId:'test_20106_09',
+            injStatus:'upload',
+            detail:'暂无',
+            platform:'中兴'
+          }
+        ],
+        injArr: null,
+        injTree:null
     };
   },
-  methods: {}
+  created(){
+     axios
+      .get("mzManage", {
+        params: {
+          cursor: 1
+        }
+      })
+      .then(res => {
+        console.log(res);
+        this.injArr = res.mzArr;
+        this.injTree=res.mzTree;
+      })
+      .catch(err => {});
+  },
+  methods: {
+
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -139,5 +127,8 @@ export default {
 }
 footer{
   margin-top:20px;
+}
+label{
+  color: #999;
 }
 </style>

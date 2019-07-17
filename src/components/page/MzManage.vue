@@ -33,9 +33,9 @@
         <ul>
           <li>
             <label>注入状态：</label>
-            <el-select v-model="selPro" filterable placeholder="最多选31个">
+            <el-select v-model="selInj" filterable placeholder="选择注入状态">
               <el-option
-                v-for="item in provinces"
+                v-for="item in injStatus"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -44,9 +44,9 @@
           </li>
           <li>
             <label>储存状态：</label>
-            <el-select v-model="selPro" filterable placeholder="最多选31个">
+            <el-select v-model="selStr" filterable placeholder="选择储存状态">
               <el-option
-                v-for="item in provinces"
+                v-for="item in strStatus"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -55,14 +55,8 @@
           </li>
           <li>
             <label>创建时间：</label>
-            <el-select v-model="selPro" placeholder="最多选31个">
-              <el-option
-                v-for="item in provinces"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+            <el-date-picker v-model="selDate" align="right" type="date" placeholder="选择日期">
+            </el-date-picker>
           </li>
         </ul>
       </section>
@@ -84,18 +78,7 @@
         </div>
       </div>
       <el-table :data="mzArr" border style="width: 100%;font-size:0.8rem" stripe>
-        <!-- <el-table-column fixed prop="ID" label="ID" width="80"></el-table-column>
-        <el-table-column prop="videoID" label="视频ID" width="80"></el-table-column>
-        <el-table-column prop="videoName" label="视频名称" width="150"></el-table-column>
-        <el-table-column prop="createDate" label="创建时间" width="150"></el-table-column>
-        <el-table-column prop="inject" label="注入操作" width="150"></el-table-column>
-        <el-table-column prop="injStatus" label="注入状态" width="120"></el-table-column>
-        <el-table-column prop="strStatus" label="储存状态" width="120"></el-table-column>
-        <el-table-column prop="strProgress" label="储存进度（0-100）" width="150"></el-table-column>
-        <el-table-column prop="code" label="播放代码" width="200"></el-table-column>
-        <el-table-column prop="company" label="公司名称" width="120"></el-table-column>
-        <el-table-column prop="video" label="视频大小" width="120"></el-table-column>
-        <el-table-column prop="ftp" label="FTP操作" width="120"></el-table-column>-->
+        <!-- <el-table-column fixed prop="ID" label="ID" width="80"></el-table-column>-->
         <blockquote v-for="item in mzTree" :key="item">
           <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
         </blockquote>
@@ -181,6 +164,13 @@ import axios from "../../utils/request";
 export default {
   data() {
     return {
+      injStatus:[{value: "1",label: "全部"},{value: "2",label: "未注入"},{value: "3",label: "注入成功"},
+                 {value: "4",label: "注入中"},{value: "5",label: "注入失败"}],
+      selInj:'',
+      strStatus:[{value: "1",label: "全部"},{value: "2",label: "未储存"},{value: "3",label: "储存中"},
+                 {value: "4",label: "储存成功"},{value: "5",label: "储存失败"},{value: "6",label: "已移除"}],
+      selStr:'',
+      selDate:'',
       provinces: [
         {
           value: "选项1",
