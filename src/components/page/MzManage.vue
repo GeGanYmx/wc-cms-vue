@@ -84,7 +84,7 @@
         </div>
       </div>
       <el-table :data="mzArr" border style="width: 100%;font-size:0.8rem" stripe>
-        <el-table-column fixed prop="ID" label="ID" width="80"></el-table-column>
+        <!-- <el-table-column fixed prop="ID" label="ID" width="80"></el-table-column>
         <el-table-column prop="videoID" label="视频ID" width="80"></el-table-column>
         <el-table-column prop="videoName" label="视频名称" width="150"></el-table-column>
         <el-table-column prop="createDate" label="创建时间" width="150"></el-table-column>
@@ -95,7 +95,11 @@
         <el-table-column prop="code" label="播放代码" width="200"></el-table-column>
         <el-table-column prop="company" label="公司名称" width="120"></el-table-column>
         <el-table-column prop="video" label="视频大小" width="120"></el-table-column>
-        <el-table-column prop="ftp" label="FTP操作" width="120"></el-table-column>
+        <el-table-column prop="ftp" label="FTP操作" width="120"></el-table-column>-->
+        <blockquote v-for="item in mzTree" :key="item">
+          <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
+        </blockquote>
+
         <el-table-column fixed="right" label="操作" width="200">
           <template slot-scope="scope">
             <el-button
@@ -133,8 +137,12 @@
       <el-button type="info">批量新建</el-button>
     </footer>
     <!--引入animate动画-->
-      <transition name="fade" enter-active-class="animated fadeIn" 
-      leave-active-class="animated fadeOutLeft" :duration="200">
+    <transition
+      name="fade"
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOutLeft"
+      :duration="200"
+    >
       <div class="filter" v-if="isFilterShow">
         <el-checkbox
           :indeterminate="isIndeterminate"
@@ -151,21 +159,25 @@
           >{{city}}</el-checkbox>
         </el-checkbox-group>
       </div>
-      </transition>
-      <!--上传文件弹出框，待封装-->
-      <transition name="fade" enter-active-class="animated fadeIn" 
-      leave-active-class="animated fadeOutRight" :duration="200">
+    </transition>
+    <!--上传文件弹出框，待封装-->
+    <transition
+      name="fade"
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOutRight"
+      :duration="200"
+    >
       <div class="export" v-if="isEpFlieShow">
-          <ul class="ep-ui">
-            <li>导出到Csv文件</li>
-            <li>导出到Excel文件</li>
-          </ul>
+        <ul class="ep-ui">
+          <li>导出到Csv文件</li>
+          <li>导出到Excel文件</li>
+        </ul>
       </div>
-      </transition>
+    </transition>
   </div>
 </template>
 <script>
-import axios from '../../utils/request'
+import axios from "../../utils/request";
 export default {
   data() {
     return {
@@ -191,39 +203,34 @@ export default {
       vID: "",
       vName: "",
       cName: "",
-      mzArr: [],
+      //表格数据
+      mzArr: null,
+      //控制表头的标签
+      mzTree: null,
       //筛选列
       checkAll: false,
       checkedCities: [],
-      // cities: [
-      //   "ID","视频ID", "视频名称", "创建时间", "注入操作",
-      //    "注入状态","储存状态","储存进度","播放代码","公司名称","视频大小","FTP操作"
-      //    ],
-        cities: [
-            {ID:'视频ID',videoID:'视频ID',videoName:'视频名称',
-            createDate:'创建时间',inject:'注入操作',injStatus:'注入状态',strStatus:'储存状态',
-            strProgress:'储存进度（0-100）',code:'播放代码',company:'公司名称',video:'视频大小',
-            ftp:'FTP操作'}
-         ],
       isIndeterminate: true,
       //控制筛选列弹出框的显示
-      isFilterShow:false,
+      isFilterShow: false,
 
-      isEpFlieShow:false,
+      isEpFlieShow: false
     };
   },
-  created(){
-    console.log('媒资管理组件初始化----');
-     axios.get('mzManage', {
-       params: {
-         cursor: 1
-      }
-    }).then(res=>{
+  created() {
+    console.log("媒资管理组件初始化----");
+    axios
+      .get("mzManage", {
+        params: {
+          cursor: 1
+        }
+      })
+      .then(res => {
         console.log(res);
-        this.mzArr=res.mzArr;
-    }).catch(err=>{
-
-    });
+        this.mzArr = res.mzArr;
+        this.mzTree=res.mzTree;
+      })
+      .catch(err => {});
   },
   methods: {
     handleClick(row) {
@@ -240,11 +247,11 @@ export default {
       this.isIndeterminate =
         checkedCount > 0 && checkedCount < this.cities.length;
     },
-    dataFilter(){
-      this.isFilterShow=this.isFilterShow?false:true;
+    dataFilter() {
+      this.isFilterShow = this.isFilterShow ? false : true;
     },
-    exportFile(){
-      this.isEpFlieShow=this.isEpFlieShow?false:true;
+    exportFile() {
+      this.isEpFlieShow = this.isEpFlieShow ? false : true;
     }
   }
 };
@@ -307,24 +314,25 @@ footer {
   border-color: rgb(210, 210, 210);
   border-image: initial;
   height: auto;
-    padding: 10px;
-    border-radius: 5px;
-    top: 267px;
-    right: 180px;
-    z-index: 5;
+  padding: 10px;
+  border-radius: 5px;
+  top: 267px;
+  right: 180px;
+  z-index: 5;
 }
-div.export{
+div.export {
   .filter;
-right: 80px;
-  & > .ep-ui{
+  right: 80px;
+  & > .ep-ui {
     margin-top: 0;
     padding-bottom: 0;
-     & li{
-    color:rgb(144, 147, 153);
-    display: block;width: 100%;
-    margin-bottom: 10px;
-    cursor: pointer;
-   }
+    & li {
+      color: rgb(144, 147, 153);
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
   }
 }
 //自定义弹出框过渡动画
