@@ -70,7 +70,7 @@
             <el-button type="primary" icon="el-icon-s-fold" @click="dataFilter"></el-button>
           </el-tooltip>
           <el-tooltip content="打印" placement="top">
-            <el-button type="primary" icon="el-icon-document"></el-button>
+            <el-button type="primary" icon="el-icon-document" @click="print"></el-button>
           </el-tooltip>
           <el-tooltip content="导出" placement="top">
             <el-button type="primary" icon="el-icon-download" @click="exportFile"></el-button>
@@ -151,8 +151,8 @@
     >
       <div class="export" v-if="isEpFlieShow">
         <ul class="ep-ui">
-          <li>导出到Csv文件</li>
-          <li>导出到Excel文件</li>
+          <li @click="createFile('Csv')">导出到Csv文件</li>
+          <li @click="createFile('Excel')">导出到Excel文件</li>
         </ul>
       </div>
     </transition>
@@ -242,7 +242,7 @@ export default {
     handleClick(row) {
       console.log("传入row");
     },
-    //筛选列
+    //筛选列（全选）
     setCheckMzAll(val) {
       //重新初始化
       this.mzTreeTmp=this.mzTree;
@@ -256,6 +256,7 @@ export default {
         });
         console.log('mzArrTmp改变------',this.mzTreeTmp);
     },
+    //筛选列
     setCheckMz(checkMz) {
       //重新初始化
       this.mzTreeTmp=this.mzTree;
@@ -270,9 +271,11 @@ export default {
         });
         console.log('mzArrTmp改变------',this.mzTreeTmp);
     },
+    //筛选列弹出框
     dataFilter() {
       this.isFilterShow = this.isFilterShow ? false : true;
     },
+    //导出功能弹出框
     exportFile() {
       this.isEpFlieShow = this.isEpFlieShow ? false : true;
     },
@@ -282,6 +285,18 @@ export default {
     },
     handleSizeChange(){
       
+    },
+    //打印功能
+    print(){
+      console.log('打印文件');
+      window.print();
+    },
+    createFile(fileType){
+      if(fileType=='Csv'){
+        console.log('打印csv文件');
+      }else{
+        console.log('打印excel文件');
+      }
     }
   }
 };
