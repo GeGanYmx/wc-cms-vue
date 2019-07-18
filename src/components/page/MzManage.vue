@@ -6,8 +6,8 @@
         <label>省份：</label>
         <el-select v-model="selPro" multiple filterable placeholder="最多选31个">
           <el-option
-            v-for="item in provinces"
-            :key="item.value"
+            v-for="(item , index) in provinces"
+            :key="index"
             :label="item.label"
             :value="item.value"
           ></el-option>
@@ -35,8 +35,8 @@
             <label>注入状态：</label>
             <el-select v-model="selInj" filterable placeholder="选择注入状态">
               <el-option
-                v-for="item in injStatus"
-                :key="item.value"
+                v-for="(item , index) in injStatus"
+                :key="index"
                 :label="item.label"
                 :value="item.value"
               ></el-option>
@@ -46,8 +46,8 @@
             <label>储存状态：</label>
             <el-select v-model="selStr" filterable placeholder="选择储存状态">
               <el-option
-                v-for="item in strStatus"
-                :key="item.value"
+                v-for="(item , index) in strStatus"
+                :key="index"
                 :label="item.label"
                 :value="item.value"
               ></el-option>
@@ -79,7 +79,7 @@
       </div>
       <el-table :data="mzArr" border style="width: 100%;font-size:0.8rem" stripe v-loading="loading">
         <!-- <el-table-column fixed prop="ID" label="ID" width="80"></el-table-column>-->
-        <blockquote v-for="item in mzTree" :key="item">
+        <blockquote v-for="(item , index) in mzTree" :key="index">
           <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
         </blockquote>
 
@@ -108,7 +108,7 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
+        :current-page="currentPage"
         :page-sizes="[100, 200, 300, 400]"
         :page-size="100"
         layout="total, sizes, prev, pager, next, jumper"
@@ -124,8 +124,7 @@
       name="fade"
       enter-active-class="animated fadeIn"
       leave-active-class="animated fadeOutLeft"
-      :duration="200"
-    >
+      :duration="200">
       <div class="filter" v-if="isFilterShow">
         <el-checkbox
           :indeterminate="isIndeterminate"
@@ -135,11 +134,11 @@
         <div style="margin: 15px 0;"></div>
         <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
           <el-checkbox
-            v-for="city in cities"
-            :label="city"
-            :key="city"
+            v-for="(item, index) in mzfilter"
+            :label="item"
+            :key="index"
             style="display:block;"
-          >{{city}}</el-checkbox>
+          >{{item}}</el-checkbox>
         </el-checkbox-group>
       </div>
     </transition>
@@ -166,6 +165,7 @@ import { setTimeout } from 'timers';
 export default {
   data() {
     return {
+      //后台数据
       injStatus:[{value: "1",label: "全部"},{value: "2",label: "未注入"},{value: "3",label: "注入成功"},
                  {value: "4",label: "注入中"},{value: "5",label: "注入失败"}],
       selInj:'',
@@ -175,19 +175,19 @@ export default {
       selDate:'',
       provinces: [
         {
-          value: "选项1",
+          value: "1",
           label: "上海市"
         },
         {
-          value: "选项2",
+          value: "2",
           label: "北京市"
         },
         {
-          value: "选项3",
+          value: "3",
           label: "福建省"
         },
         {
-          value: "选项3",
+          value: "4",
           label: "浙江省"
         }
       ],
@@ -199,6 +199,7 @@ export default {
       mzArr: null,
       //控制表头的标签
       mzTree: null,
+      mzfilter: null,
       //筛选列
       checkAll: false,
       checkedCities: [],
@@ -206,7 +207,9 @@ export default {
       //控制筛选列弹出框的显示
       isFilterShow: false,
       isEpFlieShow: false,
-      loading: true
+      loading: true, 
+      //页面控制
+      currentPage:1
     };
   },
   created() {
@@ -221,9 +224,14 @@ export default {
         console.log(res);
         this.mzArr = res.mzArr;
         this.mzTree=res.mzTree;
+        this.mzfilter=res.mzTree.map(item=>{
+          return item.label;
+        });
+     
          setTimeout(() => {
             this.loading=false;
         }, 500);
+          console.log('mzfilter------',this.mzfilter);
       })
       .catch(err => {});
   },
@@ -247,6 +255,13 @@ export default {
     },
     exportFile() {
       this.isEpFlieShow = this.isEpFlieShow ? false : true;
+    },
+    //分页逻辑
+    handleCurrentChange(){
+
+    },
+    handleSizeChange(){
+      
     }
   }
 };
