@@ -21,7 +21,7 @@
           </el-tooltip>
         </div>
     </div>
-     <el-table :data="cpArr" border style="width:65%;font-size:0.8rem" stripe>
+     <el-table :data="cpArr" border style="width:65%;font-size:0.8rem" stripe v-loading="loading">
         <blockquote v-for="item in cpTree" :key="item">
           <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
         </blockquote>
@@ -55,7 +55,8 @@ export default {
        return{
         company: '',
         cpArr: null,
-        cpTree: null
+        cpTree: null,
+        loading: true
       }
     },
     created(){
@@ -66,6 +67,9 @@ export default {
       }).then(res=>{
          this.cpArr=res.cpArr;
          this.cpTree=res.cpTree;
+         setTimeout(() => {
+           this.loading = false;
+         }, 500);
       }).catch(err=>{
 
       })

@@ -30,7 +30,7 @@
           </el-tooltip>
         </div>
     </div>
-     <el-table :data="injArr" border style="width: 100%;font-size:0.8rem" stripe>
+     <el-table :data="injArr" border style="width: 100%;font-size:0.8rem" stripe  v-loading="loading">
         <blockquote v-for="item in injTree" :key="item">
           <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
         </blockquote>
@@ -81,6 +81,7 @@ export default {
         vID:'',
         injArr: null,
         injTree:null,
+        loading: true
     };
   },
   created(){
@@ -94,6 +95,9 @@ export default {
         console.log(res);
         this.injArr = res.ijArr;
         this.injTree=res.ijTree;
+        setTimeout(() => {
+          this.loading=false;
+        }, 500);
       })
       .catch(err => {});
   },

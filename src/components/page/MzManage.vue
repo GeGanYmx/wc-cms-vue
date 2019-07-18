@@ -77,7 +77,7 @@
           </el-tooltip>
         </div>
       </div>
-      <el-table :data="mzArr" border style="width: 100%;font-size:0.8rem" stripe>
+      <el-table :data="mzArr" border style="width: 100%;font-size:0.8rem" stripe v-loading="loading">
         <!-- <el-table-column fixed prop="ID" label="ID" width="80"></el-table-column>-->
         <blockquote v-for="item in mzTree" :key="item">
           <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
@@ -161,6 +161,8 @@
 </template>
 <script>
 import axios from "../../utils/request";
+import { setTimeout } from 'timers';
+// import { Loading } from 'element-ui';
 export default {
   data() {
     return {
@@ -203,8 +205,8 @@ export default {
       isIndeterminate: true,
       //控制筛选列弹出框的显示
       isFilterShow: false,
-
-      isEpFlieShow: false
+      isEpFlieShow: false,
+      loading: true
     };
   },
   created() {
@@ -219,6 +221,9 @@ export default {
         console.log(res);
         this.mzArr = res.mzArr;
         this.mzTree=res.mzTree;
+         setTimeout(() => {
+            this.loading=false;
+        }, 500);
       })
       .catch(err => {});
   },

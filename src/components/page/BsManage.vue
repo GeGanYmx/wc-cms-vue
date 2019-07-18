@@ -29,7 +29,7 @@
           <el-button type="warning">同步</el-button>
           <el-button type="warning">一键刷新</el-button>
         </div>
-        <el-table :data="bsArr" border style="width: 100%;font-size:0.8rem" stripe>
+        <el-table :data="bsArr" border style="width: 100%;font-size:0.8rem" stripe v-loading="loading">
           <blockquote v-for="item in bsTree" :key="item">
             <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
           </blockquote>
@@ -53,7 +53,8 @@ export default {
     return {
       mtTree: null,
       bsArr: null,
-      bsTree: null
+      bsTree: null,
+      loading: true
     };
   },
   created(){
@@ -67,6 +68,9 @@ export default {
     }).then(res=>{
       this.bsArr=res.bsArr;
       this.bsTree=res.bsTree;
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
     }).catch(err=>{})
   },
   methods: {

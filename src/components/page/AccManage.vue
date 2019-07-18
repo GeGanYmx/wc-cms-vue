@@ -22,7 +22,7 @@
           </el-tooltip>
         </div>
       </div>
-      <el-table :data="acArr" border style="width: 100%;font-size:0.8rem" stripe>
+      <el-table :data="acArr" border style="width: 100%;font-size:0.8rem" stripe v-loading="loading">
         <blockquote v-for="item in acTree" :key="item">
           <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
         </blockquote>
@@ -65,7 +65,8 @@ export default {
       compName: "",
       account: "",
       acArr: null,
-      acTree: null
+      acTree: null,
+      loading: true
     };
   },
   created() {
@@ -79,6 +80,9 @@ export default {
       .then(res => {
         this.acArr = res.acArr;
         this.acTree = res.acTree;
+        setTimeout(() => {
+          this.loading=false;
+        }, 500);
       })
       .catch(err => {});
   },
