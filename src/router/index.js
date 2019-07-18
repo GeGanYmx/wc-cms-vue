@@ -125,8 +125,8 @@ export default new Router({
                     meta: { title: 'CP管理'}
                 },
                 {
-                    path: '/busManage',
-                    component: resolve=>require(['../components/page/BusManage.vue'], resolve),
+                    path: '/bsManage',
+                    component: resolve=>require(['../components/page/BsManage.vue'], resolve),
                     meta: { title: '业务元数据管理'}
                 }
             ]

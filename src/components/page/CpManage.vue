@@ -2,7 +2,7 @@
    <div class="cpContainer">
     <header>
       <label>公司名称：</label>
-      <el-input placeholder="请输入公司名称" v-model="vID" clearable style="width:30%"></el-input>
+      <el-input placeholder="请输入公司名称" v-model="company" clearable style="width:30%"></el-input>
       <el-button type="info" style="margin-left:20px;">搜索</el-button>
       <el-button>新建账号</el-button>
       <el-button>刷新媒资公司名称</el-button>
@@ -21,12 +21,11 @@
           </el-tooltip>
         </div>
     </div>
-     <el-table :data="vArr" border style="width:65%;font-size:0.8rem" stripe>
-        <el-table-column fixed prop="date" label="ID" width="170"></el-table-column>
-        <el-table-column prop="name" label="CP_CODE" width="220"></el-table-column>
-        <el-table-column prop="province" label="CP名称" width="150"></el-table-column>
-        <el-table-column prop="city" label="创建时间" width="200"></el-table-column>
-        <el-table-column prop="address" label="修改时间" width="200"></el-table-column>
+     <el-table :data="cpArr" border style="width:65%;font-size:0.8rem" stripe>
+        <blockquote v-for="item in cpTree" :key="item">
+          <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
+        </blockquote>
+
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <el-button type="primary" icon="el-icon-edit" circle @click="handleClick(scope.row)"></el-button>
@@ -50,62 +49,26 @@
   </div>
 </template>
 <script>
+import axios from "../../utils/request";
 export default {
     data(){
        return{
-             comps:[
-            {
-          value: '选项1',
-          label: '全部'
-        },
-        {
-          value: '选项1',
-          label: '上海a网络科技'
-        }, {
-          value: '选项2',
-          label: '上海b网络科技'
-        }, {
-          value: '选项3',
-          label: '科大讯飞'
+        company: '',
+        cpArr: null,
+        cpTree: null
+      }
+    },
+    created(){
+      axios.get('cpManage',{
+        params:{
+          cursor:1
         }
-        ],
-        selComp:'',
-        vID:'',
-        vArr: [
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333
-        }
-      ]
-       }
+      }).then(res=>{
+         this.cpArr=res.cpArr;
+         this.cpTree=res.cpTree;
+      }).catch(err=>{
+
+      })
     },
     methods:{
 
@@ -125,5 +88,8 @@ export default {
    footer{
        margin-top:20px;
    }
+   label {
+     color: #909399;
+  }
 </style>
 

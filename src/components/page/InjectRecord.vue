@@ -79,32 +79,21 @@ export default {
         ],
         selComp:'',
         vID:'',
-        test:[
-          {
-            id:'17410',
-            cpId:'test',
-            movieId:'8888888',
-            correlateId:'test_20106_09',
-            injStatus:'upload',
-            detail:'暂无',
-            platform:'中兴'
-          }
-        ],
         injArr: null,
-        injTree:null
+        injTree:null,
     };
   },
   created(){
      axios
-      .get("mzManage", {
+      .get("injManage", {
         params: {
           cursor: 1
         }
       })
       .then(res => {
         console.log(res);
-        this.injArr = res.mzArr;
-        this.injTree=res.mzTree;
+        this.injArr = res.ijArr;
+        this.injTree=res.ijTree;
       })
       .catch(err => {});
   },

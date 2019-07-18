@@ -174,7 +174,7 @@
                                 title: 'CP管理',
                             },
                               {
-                                index: 'busManage',
+                                index: 'bsManage',
                                 title: '业务元数据管理'
                             }
                         ]
