@@ -32,9 +32,9 @@
     </div>
      <el-table :data="injArr" border style="width: 100%;font-size:0.8rem" stripe  v-loading="loading">
         <blockquote v-for="item in injTree" :key="item">
-          <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
+          <el-table-column :prop="item.prop" :label="item.label" width="130"></el-table-column>
         </blockquote>
-        <el-table-column fixed="right" label="操作" width="110">
+        <el-table-column label="操作" width="120">
           <template slot-scope="scope">
              <el-button type="primary" icon="el-icon-edit" circle @click="handleClick(scope.row)"></el-button>
              <el-button type="danger" icon="el-icon-delete" circle @click="handleClick(scope.row)"></el-button>

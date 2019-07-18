@@ -22,11 +22,11 @@
           </el-tooltip>
         </div>
       </div>
-      <el-table :data="acArr" border style="width: 100%;font-size:0.8rem" stripe v-loading="loading">
+      <el-table :data="acArr" border style="font-size:0.8rem" stripe v-loading="loading">
         <blockquote v-for="item in acTree" :key="item">
-          <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
+          <el-table-column :prop="item.prop" :label="item.label" width="180"></el-table-column>
         </blockquote>
-        <el-table-column fixed="right" label="操作" width="240">
+        <el-table-column label="操作" width="240">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
             <el-button type="text" size="small" style="color:#e6a23c">重设密码</el-button>

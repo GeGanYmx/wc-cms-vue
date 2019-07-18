@@ -29,12 +29,12 @@
           <el-button type="warning">同步</el-button>
           <el-button type="warning">一键刷新</el-button>
         </div>
-        <el-table :data="bsArr" border style="width: 100%;font-size:0.8rem" stripe v-loading="loading">
+        <el-table :data="bsArr" border style="font-size:0.8rem" stripe v-loading="loading">
           <blockquote v-for="item in bsTree" :key="item">
-            <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
+            <el-table-column :prop="item.prop" :label="item.label" width="180"></el-table-column>
           </blockquote>
 
-          <el-table-column fixed="right" label="操作" width="240">
+          <el-table-column label="操作" width="240">
             <template slot-scope="scope">
               <!--编辑+删除-->
               <el-button type="primary" icon="el-icon-edit" circle @click="handleClick(scope.row)"></el-button>
@@ -103,7 +103,7 @@ export default {
   display: flex;
 }
 main {
-  width: 30%;
+  width: 20%;
   min-height: 100%;
   border-right-style: solid;
   border-width: 1px;
@@ -122,7 +122,7 @@ main {
   }
 }
 #data {
-  width: 70%;
+  width: 80%;
   min-height: 100%;
   & > header {
     .header-Base;

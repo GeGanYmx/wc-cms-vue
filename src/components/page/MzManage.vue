@@ -83,7 +83,7 @@
           <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
         </blockquote>
 
-        <el-table-column fixed="right" label="操作" width="200">
+        <el-table-column label="操作" width="200">
           <template slot-scope="scope">
             <el-button
               @click="handleClick(scope.row)"
