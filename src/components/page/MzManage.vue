@@ -79,7 +79,7 @@
       </div>
       <el-table :data="mzArr" border style="width: 100%;font-size:0.8rem" stripe v-loading="loading">
         <!-- <el-table-column fixed prop="ID" label="ID" width="80"></el-table-column>-->
-        <blockquote v-for="(item , index) in mzTree" :key="index">
+        <blockquote v-for="(item , index) in mzTreeTmp" :key="index">
           <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
         </blockquote>
 
@@ -129,10 +129,10 @@
         <el-checkbox
           :indeterminate="isIndeterminate"
           v-model="checkAll"
-          @change="handleCheckAllChange"
-        >全选</el-checkbox>
+          @change="setCheckMzAll"
+        >全选（勾选过滤）</el-checkbox>
         <div style="margin: 15px 0;"></div>
-        <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+        <el-checkbox-group v-model="checkMz" @change="setCheckMz">
           <el-checkbox
             v-for="(item, index) in mzfilter"
             :label="item"
@@ -195,14 +195,15 @@ export default {
       vID: "",
       vName: "",
       cName: "",
-      //表格数据
+      //后台接收到的表格数据
       mzArr: null,
-      //控制表头的标签
+      //后台接收的控制表头的数据
       mzTree: null,
+      mzTreeTmp: null,
       mzfilter: null,
       //筛选列
       checkAll: false,
-      checkedCities: [],
+      checkMz: [],
       isIndeterminate: true,
       //控制筛选列弹出框的显示
       isFilterShow: false,
@@ -223,15 +224,17 @@ export default {
       .then(res => {
         console.log(res);
         this.mzArr = res.mzArr;
-        this.mzTree=res.mzTree;
-        this.mzfilter=res.mzTree.map(item=>{
-          return item.label;
-        });
-     
+        this.mzTree= res.mzTree;
+        // this.mzfilter=res.mzTree.map(item=>{
+        //   return item.label;
+        // });
+        this.mzfilter= res.mzTree.map(item=>item.label);
+        this.mzTreeTmp= this.mzTree.slice();
+        console.log('mzArrTmp------',this.mzArrTmp,this.mzTreeTmp);
          setTimeout(() => {
             this.loading=false;
         }, 500);
-          console.log('mzfilter------',this.mzfilter);
+          // console.log('mzfilter------',this.mzfilter);
       })
       .catch(err => {});
   },
@@ -240,15 +243,32 @@ export default {
       console.log("传入row");
     },
     //筛选列
-    handleCheckAllChange(val) {
-      this.checkedCities = val ? cityOptions : [];
+    setCheckMzAll(val) {
+      //重新初始化
+      this.mzTreeTmp=this.mzTree;
+      console.log('触发全选事件',val);
+      this.checkMz= val ? this.mzfilter : [];
+      console.log('this.checkMz=-----',this.checkMz);
       this.isIndeterminate = false;
+         //操作mzArrTmp，mzTreeTmp
+      this.checkMz.forEach(element => {
+           this.mzTreeTmp=this.mzTreeTmp.filter(item=>element!==item.label);
+        });
+        console.log('mzArrTmp改变------',this.mzTreeTmp);
     },
-    handleCheckedCitiesChange(value) {
-      let checkedCount = value.length;
-      this.checkAll = checkedCount === this.cities.length;
+    setCheckMz(checkMz) {
+      //重新初始化
+      this.mzTreeTmp=this.mzTree;
+      console.log('勾选的标签页-----',checkMz);
+      let checkedCount = checkMz.length;
+      this.checkAll = checkedCount === this.mzfilter.length;
       this.isIndeterminate =
-        checkedCount > 0 && checkedCount < this.cities.length;
+        checkedCount > 0 && checkedCount < this.mzfilter.length;
+        //操作mzArrTmp，mzTreeTmp
+        checkMz.forEach(element => {
+           this.mzTreeTmp=this.mzTreeTmp.filter(item=>element!==item.label);
+        });
+        console.log('mzArrTmp改变------',this.mzTreeTmp);
     },
     dataFilter() {
       this.isFilterShow = this.isFilterShow ? false : true;
@@ -272,6 +292,7 @@ export default {
   min-height: 780px;
   padding-left: 30px;
   padding-top: 30px;
+  position: relative;
 }
 ul {
   list-style-type: none;
@@ -326,8 +347,8 @@ footer {
   height: auto;
   padding: 10px;
   border-radius: 5px;
-  top: 267px;
-  right: 180px;
+  top: 212px;
+  right: 192px;
   z-index: 5;
 }
 div.export {
