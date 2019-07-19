@@ -157,10 +157,8 @@
       :duration="200"
     >
       <div class="export" v-if="isEpFlieShow">
-        <ul class="ep-ui">
-          <li @click="createFile('csv')">导出到Csv文件</li>
-          <li @click="createFile('xlsx')">导出到Excel文件</li>
-        </ul>
+        <!--驼峰命名转换-->
+        <v-exportb :tid="outTable.id" :tname="outTable.name"></v-exportb>
       </div>
     </transition>
   </div>
@@ -168,6 +166,8 @@
 <script>
 import axios from "../../utils/request";
 import { setTimeout } from "timers";
+import vExportb from '../common/ExportTb'
+
 export default {
   data() {
     return {
@@ -227,8 +227,18 @@ export default {
       isEpFlieShow: false,
       loading: true,
       //页面控制
-      currentPage: 1
+      currentPage: 1,
+      //导出的表格信息
+      outTable:{
+        id:"mzTable",
+        name:'媒资管理'
+      }
+      
     };
+  },
+  //注册组件
+  components:{
+    vExportb
   },
   created() {
     console.log("媒资管理组件初始化----");
@@ -242,9 +252,6 @@ export default {
         console.log(res);
         this.mzArr = res.mzArr;
         this.mzTree = res.mzTree;
-        // this.mzfilter=res.mzTree.map(item=>{
-        //   return item.label;
-        // });
         this.mzfilter = res.mzTree.map(item => item.label);
         this.mzTreeTmp = this.mzTree.slice();
         console.log("mzArrTmp------", this.mzArrTmp, this.mzTreeTmp);
@@ -303,32 +310,6 @@ export default {
     print() {
       console.log("打印文件");
       window.print();
-    },
-    createFile(fileType) {
-    console.log('打印的文件格式：',fileType);
-    let xlsxParam = { raw: true };
-        let wb = this.$xlsx.utils.table_to_book(
-          document.querySelector("#" + "mzTable"),
-          xlsxParam
-        );
-        let wbout = this.$xlsx.write(wb, {
-          bookType: "xlsx",
-          bookSST: true,
-          type: "array"
-        });
-        try {
-          this.$fileSaver.saveAs(
-            new Blob([wbout], {
-              type: "application/octet-stream"
-            }),
-            // this.name + '.xlsx'
-            "媒资管理" + '.' + fileType
-          );
-        } catch (e) {
-          if (typeof console !== "undefined") console.log(e, wbout);
-        }
-        return wbout;
-
     }
   }
 };
@@ -401,17 +382,17 @@ footer {
 div.export {
   .filter;
   right: 80px;
-  & > .ep-ui {
-    margin-top: 0;
-    padding-bottom: 0;
-    & li {
-      color: rgb(144, 147, 153);
-      display: block;
-      width: 100%;
-      margin-bottom: 10px;
-      cursor: pointer;
-    }
-  }
+  // & > .ep-ui {
+  //   margin-top: 0;
+  //   padding-bottom: 0;
+  //   & li {
+  //     color: rgb(144, 147, 153);
+  //     display: block;
+  //     width: 100%;
+  //     margin-bottom: 10px;
+  //     cursor: pointer;
+  //   }
+  // }
 }
 //自定义弹出框过渡动画
 // .fade-enter-active, .fade-leave-active {
