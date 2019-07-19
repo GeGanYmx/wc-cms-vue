@@ -55,8 +55,7 @@
           </li>
           <li>
             <label>创建时间：</label>
-            <el-date-picker v-model="selDate" align="right" type="date" placeholder="选择日期">
-            </el-date-picker>
+            <el-date-picker v-model="selDate" align="right" type="date" placeholder="选择日期"></el-date-picker>
           </li>
         </ul>
       </section>
@@ -77,7 +76,14 @@
           </el-tooltip>
         </div>
       </div>
-      <el-table :data="mzArr" border style="width: 100%;font-size:0.8rem" stripe v-loading="loading">
+      <el-table
+        :data="mzArr"
+        border
+        style="width: 100%;font-size:0.8rem"
+        stripe
+        v-loading="loading"
+        id="mzTable"
+      >
         <!-- <el-table-column fixed prop="ID" label="ID" width="80"></el-table-column>-->
         <blockquote v-for="(item , index) in mzTreeTmp" :key="index">
           <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
@@ -124,7 +130,8 @@
       name="fade"
       enter-active-class="animated fadeIn"
       leave-active-class="animated fadeOutLeft"
-      :duration="200">
+      :duration="200"
+    >
       <div class="filter" v-if="isFilterShow">
         <el-checkbox
           :indeterminate="isIndeterminate"
@@ -151,8 +158,8 @@
     >
       <div class="export" v-if="isEpFlieShow">
         <ul class="ep-ui">
-          <li @click="createFile('Csv')">导出到Csv文件</li>
-          <li @click="createFile('Excel')">导出到Excel文件</li>
+          <li @click="createFile('csv')">导出到Csv文件</li>
+          <li @click="createFile('xlsx')">导出到Excel文件</li>
         </ul>
       </div>
     </transition>
@@ -160,19 +167,29 @@
 </template>
 <script>
 import axios from "../../utils/request";
-import { setTimeout } from 'timers';
-// import { Loading } from 'element-ui';
+import { setTimeout } from "timers";
 export default {
   data() {
     return {
       //后台数据
-      injStatus:[{value: "1",label: "全部"},{value: "2",label: "未注入"},{value: "3",label: "注入成功"},
-                 {value: "4",label: "注入中"},{value: "5",label: "注入失败"}],
-      selInj:'',
-      strStatus:[{value: "1",label: "全部"},{value: "2",label: "未储存"},{value: "3",label: "储存中"},
-                 {value: "4",label: "储存成功"},{value: "5",label: "储存失败"},{value: "6",label: "已移除"}],
-      selStr:'',
-      selDate:'',
+      injStatus: [
+        { value: "1", label: "全部" },
+        { value: "2", label: "未注入" },
+        { value: "3", label: "注入成功" },
+        { value: "4", label: "注入中" },
+        { value: "5", label: "注入失败" }
+      ],
+      selInj: "",
+      strStatus: [
+        { value: "1", label: "全部" },
+        { value: "2", label: "未储存" },
+        { value: "3", label: "储存中" },
+        { value: "4", label: "储存成功" },
+        { value: "5", label: "储存失败" },
+        { value: "6", label: "已移除" }
+      ],
+      selStr: "",
+      selDate: "",
       provinces: [
         {
           value: "1",
@@ -208,9 +225,9 @@ export default {
       //控制筛选列弹出框的显示
       isFilterShow: false,
       isEpFlieShow: false,
-      loading: true, 
+      loading: true,
       //页面控制
-      currentPage:1
+      currentPage: 1
     };
   },
   created() {
@@ -224,17 +241,17 @@ export default {
       .then(res => {
         console.log(res);
         this.mzArr = res.mzArr;
-        this.mzTree= res.mzTree;
+        this.mzTree = res.mzTree;
         // this.mzfilter=res.mzTree.map(item=>{
         //   return item.label;
         // });
-        this.mzfilter= res.mzTree.map(item=>item.label);
-        this.mzTreeTmp= this.mzTree.slice();
-        console.log('mzArrTmp------',this.mzArrTmp,this.mzTreeTmp);
-         setTimeout(() => {
-            this.loading=false;
+        this.mzfilter = res.mzTree.map(item => item.label);
+        this.mzTreeTmp = this.mzTree.slice();
+        console.log("mzArrTmp------", this.mzArrTmp, this.mzTreeTmp);
+        setTimeout(() => {
+          this.loading = false;
         }, 500);
-          // console.log('mzfilter------',this.mzfilter);
+        // console.log('mzfilter------',this.mzfilter);
       })
       .catch(err => {});
   },
@@ -245,31 +262,31 @@ export default {
     //筛选列（全选）
     setCheckMzAll(val) {
       //重新初始化
-      this.mzTreeTmp=this.mzTree;
-      console.log('触发全选事件',val);
-      this.checkMz= val ? this.mzfilter : [];
-      console.log('this.checkMz=-----',this.checkMz);
+      this.mzTreeTmp = this.mzTree;
+      console.log("触发全选事件", val);
+      this.checkMz = val ? this.mzfilter : [];
+      console.log("this.checkMz=-----", this.checkMz);
       this.isIndeterminate = false;
-         //操作mzArrTmp，mzTreeTmp
+      //操作mzArrTmp，mzTreeTmp
       this.checkMz.forEach(element => {
-           this.mzTreeTmp=this.mzTreeTmp.filter(item=>element!==item.label);
-        });
-        console.log('mzArrTmp改变------',this.mzTreeTmp);
+        this.mzTreeTmp = this.mzTreeTmp.filter(item => element !== item.label);
+      });
+      console.log("mzArrTmp改变------", this.mzTreeTmp);
     },
     //筛选列
     setCheckMz(checkMz) {
       //重新初始化
-      this.mzTreeTmp=this.mzTree;
-      console.log('勾选的标签页-----',checkMz);
+      this.mzTreeTmp = this.mzTree;
+      console.log("勾选的标签页-----", checkMz);
       let checkedCount = checkMz.length;
       this.checkAll = checkedCount === this.mzfilter.length;
       this.isIndeterminate =
         checkedCount > 0 && checkedCount < this.mzfilter.length;
-        //操作mzArrTmp，mzTreeTmp
-        checkMz.forEach(element => {
-           this.mzTreeTmp=this.mzTreeTmp.filter(item=>element!==item.label);
-        });
-        console.log('mzArrTmp改变------',this.mzTreeTmp);
+      //操作mzArrTmp，mzTreeTmp
+      checkMz.forEach(element => {
+        this.mzTreeTmp = this.mzTreeTmp.filter(item => element !== item.label);
+      });
+      console.log("mzArrTmp改变------", this.mzTreeTmp);
     },
     //筛选列弹出框
     dataFilter() {
@@ -280,23 +297,38 @@ export default {
       this.isEpFlieShow = this.isEpFlieShow ? false : true;
     },
     //分页逻辑
-    handleCurrentChange(){
-
-    },
-    handleSizeChange(){
-      
-    },
+    handleCurrentChange() {},
+    handleSizeChange() {},
     //打印功能
-    print(){
-      console.log('打印文件');
+    print() {
+      console.log("打印文件");
       window.print();
     },
-    createFile(fileType){
-      if(fileType=='Csv'){
-        console.log('打印csv文件');
-      }else{
-        console.log('打印excel文件');
-      }
+    createFile(fileType) {
+    console.log('打印的文件格式：',fileType);
+    let xlsxParam = { raw: true };
+        let wb = this.$xlsx.utils.table_to_book(
+          document.querySelector("#" + "mzTable"),
+          xlsxParam
+        );
+        let wbout = this.$xlsx.write(wb, {
+          bookType: "xlsx",
+          bookSST: true,
+          type: "array"
+        });
+        try {
+          this.$fileSaver.saveAs(
+            new Blob([wbout], {
+              type: "application/octet-stream"
+            }),
+            // this.name + '.xlsx'
+            "媒资管理" + '.' + fileType
+          );
+        } catch (e) {
+          if (typeof console !== "undefined") console.log(e, wbout);
+        }
+        return wbout;
+
     }
   }
 };

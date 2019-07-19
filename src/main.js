@@ -13,6 +13,10 @@ import "babel-polyfill";
 //引用animate动画库
 import animate from 'animate.css'
 
+//excel文件导出插件
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
+
 //全局注册使用（所有组件都可以直接使用）
 Vue.use(animate);
 Vue.config.productionTip = false
@@ -20,8 +24,11 @@ Vue.use(VueI18n);
 Vue.use(ElementUI, {
     size: 'small'
 });
+
 //axios不支持use方法，使用时this.$axios???不能使用？？？
 Vue.prototype.$axios = axios;
+Vue.prototype.$fileSaver = FileSaver;
+Vue.prototype.$xlsx = XLSX;
 
 const i18n = new VueI18n({
     locale: 'zh',
