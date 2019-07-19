@@ -4,9 +4,9 @@
     <header>
       <section>
         <label>省份：</label>
-        <el-select v-model="selPro" multiple filterable placeholder="最多选31个">
+        <el-select v-model="ele.selPro" multiple filterable placeholder="最多选31个">
           <el-option
-            v-for="(item , index) in provinces"
+            v-for="(item , index) in ele.provinces"
             :key="index"
             :label="item.label"
             :value="item.value"
@@ -17,15 +17,15 @@
         <ul>
           <li>
             <label>视频ID：</label>
-            <el-input v-model="vID" placeholder="请输入视频ID" clearable></el-input>
+            <el-input v-model="ele.vID" placeholder="请输入视频ID" clearable></el-input>
           </li>
           <li>
             <label>视频名称：</label>
-            <el-input v-model="vName" placeholder="请输入视频名称" clearable></el-input>
+            <el-input v-model="ele.vName" placeholder="请输入视频名称" clearable></el-input>
           </li>
           <li>
             <label>公司名称：</label>
-            <el-input v-model="cName" placeholder="请输入公司名称" clearable></el-input>
+            <el-input v-model="ele.cName" placeholder="请输入公司名称" clearable></el-input>
           </li>
         </ul>
       </section>
@@ -33,9 +33,9 @@
         <ul>
           <li>
             <label>注入状态：</label>
-            <el-select v-model="selInj" filterable placeholder="选择注入状态">
+            <el-select v-model="ele.selInj" filterable placeholder="选择注入状态">
               <el-option
-                v-for="(item , index) in injStatus"
+                v-for="(item , index) in ele.injStatus"
                 :key="index"
                 :label="item.label"
                 :value="item.value"
@@ -44,9 +44,9 @@
           </li>
           <li>
             <label>储存状态：</label>
-            <el-select v-model="selStr" filterable placeholder="选择储存状态">
+            <el-select v-model="ele.selStr" filterable placeholder="选择储存状态">
               <el-option
-                v-for="(item , index) in strStatus"
+                v-for="(item , index) in ele.strStatus"
                 :key="index"
                 :label="item.label"
                 :value="item.value"
@@ -55,7 +55,7 @@
           </li>
           <li>
             <label>创建时间：</label>
-            <el-date-picker v-model="selDate" align="right" type="date" placeholder="选择日期"></el-date-picker>
+            <el-date-picker v-model="ele.selDate" align="right" type="date" placeholder="选择日期"></el-date-picker>
           </li>
         </ul>
       </section>
@@ -114,11 +114,11 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
+        :current-page="1"
+        :page-sizes="[10, 20, 50, 100, 200, 500]"
+        :page-size="pagination.defaultLimit"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="400"
+        :total="pagination.mzCount"
         style="display:inline-block;margin-right:20px;"
       ></el-pagination>
       <el-button type="primary">新建</el-button>
@@ -171,16 +171,16 @@ import vExportb from '../common/ExportTb'
 export default {
   data() {
     return {
-      //后台数据
-      injStatus: [
-        { value: "1", label: "全部" },
-        { value: "2", label: "未注入" },
-        { value: "3", label: "注入成功" },
-        { value: "4", label: "注入中" },
-        { value: "5", label: "注入失败" }
-      ],
-      selInj: "",
-      strStatus: [
+      //元素绑定值
+      ele:{
+        selPro: "",
+        vID: "",
+        vName: "",
+        cName: "",
+         selStr: "",
+         selDate: "",
+         selInj: "",
+        strStatus: [
         { value: "1", label: "全部" },
         { value: "2", label: "未储存" },
         { value: "3", label: "储存中" },
@@ -188,9 +188,14 @@ export default {
         { value: "5", label: "储存失败" },
         { value: "6", label: "已移除" }
       ],
-      selStr: "",
-      selDate: "",
-      provinces: [
+       injStatus: [
+        { value: "1", label: "全部" },
+        { value: "2", label: "未注入" },
+        { value: "3", label: "注入成功" },
+        { value: "4", label: "注入中" },
+        { value: "5", label: "注入失败" }
+      ],
+       provinces: [
         {
           value: "1",
           label: "上海市"
@@ -208,16 +213,20 @@ export default {
           label: "浙江省"
         }
       ],
-      selPro: "",
-      vID: "",
-      vName: "",
-      cName: "",
+      
+      },
+     
       //后台接收到的表格数据
       mzArr: null,
       //后台接收的控制表头的数据
       mzTree: null,
       mzTreeTmp: null,
       mzfilter: null,
+      //分页控件
+      pagination:{
+        mzCount:0,
+        defaultLimit:50
+      },
       //筛选列
       checkAll: false,
       checkMz: [],
@@ -226,14 +235,12 @@ export default {
       isFilterShow: false,
       isEpFlieShow: false,
       loading: true,
-      //页面控制
-      currentPage: 1,
+      
       //导出的表格信息
       outTable:{
         id:"mzTable",
         name:'媒资管理'
       }
-      
     };
   },
   //注册组件
@@ -241,16 +248,21 @@ export default {
     vExportb
   },
   created() {
-    console.log("媒资管理组件初始化----");
-    axios
-      .get("mzManage", {
+    this.getMzData(1,this.pagination.defaultLimit);
+  },
+  methods: {
+    getMzData(cursor,limit){
+      console.log('cursor-----',cursor);
+      console.log('limit------',limit);
+      axios.get("mzManage", {
         params: {
-          cursor: 1
+          cursor
         }
       })
       .then(res => {
         console.log(res);
         this.mzArr = res.mzArr;
+        this.pagination.mzCount = this.mzArr.length;
         this.mzTree = res.mzTree;
         this.mzfilter = res.mzTree.map(item => item.label);
         this.mzTreeTmp = this.mzTree.slice();
@@ -261,8 +273,7 @@ export default {
         // console.log('mzfilter------',this.mzfilter);
       })
       .catch(err => {});
-  },
-  methods: {
+    },
     handleClick(row) {
       console.log("传入row");
     },
@@ -304,8 +315,15 @@ export default {
       this.isEpFlieShow = this.isEpFlieShow ? false : true;
     },
     //分页逻辑
-    handleCurrentChange() {},
-    handleSizeChange() {},
+    handleCurrentChange(cursor) {
+      console.log('当前页面-----',cursor);
+        
+    },
+    handleSizeChange(limit) {
+      //limit  控制每页多少
+      console.log('每个页面的条数----',limit);
+        
+    },
     //打印功能
     print() {
       console.log("打印文件");
@@ -378,28 +396,12 @@ footer {
   top: 212px;
   right: 192px;
   z-index: 5;
+  box-shadow: 0 0 20px #99CCFF;
 }
 div.export {
   .filter;
   right: 80px;
-  // & > .ep-ui {
-  //   margin-top: 0;
-  //   padding-bottom: 0;
-  //   & li {
-  //     color: rgb(144, 147, 153);
-  //     display: block;
-  //     width: 100%;
-  //     margin-bottom: 10px;
-  //     cursor: pointer;
-  //   }
-  // }
+  box-shadow: 0 0 20px #99CCFF;
 }
-//自定义弹出框过渡动画
-// .fade-enter-active, .fade-leave-active {
-//     transition: opacity 0.5s
-// }
-// .fade-enter, .fade-leave-to /* .fade-leave-active, 2.1.8 版本以下 */ {
-//     opacity: 0;
-// }
 </style>
 
