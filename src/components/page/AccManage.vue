@@ -71,8 +71,7 @@ export default {
   },
   created() {
     //初始化数据
-    axios
-      .get("acManage", {
+     axios.get("acManage", {
         params: {
           cursor: 1
         }
