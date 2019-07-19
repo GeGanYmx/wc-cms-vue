@@ -403,5 +403,8 @@ div.export {
   right: 80px;
   box-shadow: 0 0 20px #99CCFF;
 }
+.el-table, .el-table__expanded-cell {
+    background-color: transparent;
+}
 </style>
 

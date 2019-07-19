@@ -15,7 +15,7 @@
           :data="mtTree"
           :props="defaultProps"
           @node-click="handleNodeClick"
-          style="margin-top:20px;"
+          style="margin-top:20px;background: #f0f0f0;"
         ></el-tree>
       </article>
     </main>
@@ -137,6 +137,9 @@ main {
       padding-left: 10px;
     }
   }
+}
+.el-table, .el-table__expanded-cell {
+    background-color: transparent;
 }
 </style>
 

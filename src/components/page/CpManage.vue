@@ -95,5 +95,8 @@ export default {
    label {
      color: #909399;
   }
+  .el-table, .el-table__expanded-cell {
+    background-color: transparent;
+  }
 </style>
 

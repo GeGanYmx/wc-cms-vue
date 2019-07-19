@@ -124,4 +124,7 @@ footer{
 label{
   color: #999;
 }
+.el-table, .el-table__expanded-cell {
+    background-color: transparent;
+}
 </style>
