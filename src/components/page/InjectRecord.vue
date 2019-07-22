@@ -18,17 +18,8 @@
     </header>
     <article>
       <div class="atheader">
-        <div>
-          <el-tooltip content="筛选列" placement="top">
-            <el-button type="primary" icon="el-icon-s-fold"></el-button>
-          </el-tooltip>
-          <el-tooltip content="打印" placement="top">
-            <el-button type="primary" icon="el-icon-document"></el-button>
-          </el-tooltip>
-          <el-tooltip content="导出" placement="top">
-            <el-button type="primary" icon="el-icon-download"></el-button>
-          </el-tooltip>
-        </div>
+        <!--表头按钮组-->
+        <v-tbCommonBtn :filter.sync="isFilterShow" :ep-file.sync="isEpFlieShow"></v-tbCommonBtn>
       </div>
       <el-table
         :data="injArr"
@@ -36,8 +27,9 @@
         style="width: 100%;font-size:0.8rem"
         stripe
         v-loading="ele.loading"
+        id="injTable"
       >
-        <blockquote v-for="item in injTree" :key="item">
+        <blockquote v-for="item in injTreeTmp" :key="item">
           <el-table-column :prop="item.prop" :label="item.label" width="130"></el-table-column>
         </blockquote>
         <el-table-column label="操作" width="120">
@@ -53,18 +45,46 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
+        :current-page="1"
+        :page-sizes="[10, 20, 50, 100, 200, 500]"
+        :page-size="pagination.defaultLimit"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="400"
+        :total="pagination.injCount"
         style="display:inline-block;margin-right:20px;"
       ></el-pagination>
     </footer>
+    <!--引入animate动画-->
+    <transition
+      name="fade"
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOutLeft"
+      :duration="200"
+    >
+      <v-columnFilter
+        :th-label="injfilter"
+        :tb-data="injTree"
+        :check-mz.sync="checkMz"
+        @updateTree="updateinjTree"
+        v-if="isFilterShow"
+      ></v-columnFilter>
+    </transition>
+    <!--上传文件弹出框，待封装-->
+    <transition
+      name="fade"
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOutRight"
+      :duration="200"
+    >
+      <!--驼峰命名转换-->
+      <v-exportb :tid="outTable.id" :tname="outTable.name" v-if="isEpFlieShow"></v-exportb>
+    </transition>
   </div>
 </template>
 <script>
 import axios from "../../utils/request";
+import vTbCommonBtn from "../common/TbCommonBtn";
+import vColumnFilter from "../common/ColumnFilter";
+import vExportb from "../common/ExportTb";
 export default {
   data() {
     return {
@@ -92,27 +112,74 @@ export default {
         loading: true
       },
       injArr: null,
-      injTree: null
+      injTree: null,
+      //后台接收的控制表头的数据
+      injTreeTmp: null,
+      injfilter: null,
+      //分页控件
+      pagination: {
+        injCount: 0,
+        defaultLimit: 50
+      },
+      //筛选列
+      checkAll: false,
+      checkMz: [],
+      //控制筛选列弹出框的显示
+      isFilterShow: false,
+      isEpFlieShow: false,
+
+      //导出的表格信息
+      outTable: {
+        id: "injTable",
+        name: "注入记录"
+      }
     };
   },
+  components: {
+    vTbCommonBtn,
+    vColumnFilter,
+    vExportb
+  },
   created() {
-    axios
+     this.getData(1,this.pagination.defaultLimit);
+  },
+  methods: {
+    getData(cursor,limit){
+      axios
       .get("injManage", {
         params: {
-          cursor: 1
+          cursor 
         }
       })
       .then(res => {
         console.log(res);
         this.injArr = res.ijArr;
+        this.pagination.injCount=this.injArr.length;
         this.injTree = res.ijTree;
+        this.injfilter = res.ijTree.map(item => item.label);
+        this.injTreeTmp = this.injTree.slice();
         setTimeout(() => {
           this.ele.loading = false;
         }, 500);
       })
       .catch(err => {});
-  },
-  methods: {}
+    },
+    updateinjTree(data) {
+      console.log("冒泡所传过来的值：", data);
+      this.injTreeTmp = data;
+    },
+    handleClick(row) {
+      console.log("传入row");
+    },
+    //分页逻辑
+    handleCurrentChange(cursor) {
+      console.log("当前页面-----", cursor);
+    },
+    handleSizeChange(limit) {
+      //limit  控制每页多少
+      console.log("每个页面的条数----", limit);
+    },
+  }
 };
 </script>
 <style lang="less" scoped>

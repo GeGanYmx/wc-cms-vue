@@ -10,20 +10,11 @@
     </header>
     <article>
       <div class="arHeader">
-        <div>
-          <el-tooltip content="筛选列" placement="top">
-            <el-button type="primary" icon="el-icon-s-fold"></el-button>
-          </el-tooltip>
-          <el-tooltip content="打印" placement="top">
-            <el-button type="primary" icon="el-icon-document"></el-button>
-          </el-tooltip>
-          <el-tooltip content="导出" placement="top">
-            <el-button type="primary" icon="el-icon-download"></el-button>
-          </el-tooltip>
-        </div>
+        <!--表头按钮组-->
+        <v-tbCommonBtn :filter.sync="isFilterShow" :ep-file.sync="isEpFlieShow"></v-tbCommonBtn>
       </div>
-      <el-table :data="acArr" border style="font-size:0.8rem" stripe v-loading="loading">
-        <blockquote v-for="item in acTree" :key="item">
+      <el-table :data="acArr" border style="font-size:0.8rem" stripe v-loading="loading" id="acTable">
+        <blockquote v-for="item in acTreeTmp" :key="item">
           <el-table-column :prop="item.prop" :label="item.label" width="180"></el-table-column>
         </blockquote>
         <el-table-column label="操作" width="240">
@@ -47,18 +38,47 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="currentPage4"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
+        :current-page="1"
+        :page-sizes="[10, 20, 50, 100, 200, 500]"
+        :page-size="pagination.defaultLimit"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="400"
+        :total="pagination.acCount"
         style="display:inline-block;margin-right:20px;"
       ></el-pagination>
     </footer>
+    <!--引入animate动画-->
+    <transition
+      name="fade"
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOutLeft"
+      :duration="200"
+    >
+      <v-columnFilter
+        :th-label="acfilter"
+        :tb-data="acTree"
+        :check-mz.sync="checkMz"
+        @updateTree="updateAcTree"
+        v-if="isFilterShow"
+      ></v-columnFilter>
+    </transition>
+    <!--上传文件弹出框，待封装-->
+    <transition
+      name="fade"
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOutRight"
+      :duration="200"
+    >
+      <!--驼峰命名转换-->
+      <v-exportb :tid="outTable.id" :tname="outTable.name" v-if="isEpFlieShow"></v-exportb>
+    </transition>
   </div>
 </template>
 <script>
 import axios from "../../utils/request";
+
+import vTbCommonBtn from "../common/TbCommonBtn";
+import vColumnFilter from "../common/ColumnFilter";
+import vExportb from "../common/ExportTb";
 export default {
   data() {
     return {
@@ -66,26 +86,74 @@ export default {
       account: "",
       acArr: null,
       acTree: null,
-      loading: true
+      loading: true,
+      //控制筛选列弹出框的显示
+      isFilterShow: false,
+      isEpFlieShow: false,
+      //导出的表格信息
+      outTable: {
+        id: "acTable",
+        name: "账号管理"
+      },
+        //分页控件
+      pagination: {
+        acCount: 0,
+        defaultLimit: 50
+      },
+        //筛选列
+      checkAll: false,
+      checkMz: [],
+      
+      //后台接收到的表格数据
+      //后台接收的控制表头的数据
+      acTreeTmp: null,
+      acfilter: null,
     };
   },
+  components:{
+    vTbCommonBtn,
+    vColumnFilter,
+    vExportb
+  },
   created() {
-    //初始化数据
+   this.getData(1,50);
+  },
+  methods: {
+    getData(cursor,limit){  
+      //初始化数据
      axios.get("acManage", {
         params: {
-          cursor: 1
+           cursor
         }
       })
       .then(res => {
         this.acArr = res.acArr;
+        this.pagination.acCount=this.acArr.length;
         this.acTree = res.acTree;
+        this.acfilter = res.acTree.map(item => item.label);
+        this.acTreeTmp = this.acTree.slice();
         setTimeout(() => {
           this.loading=false;
         }, 500);
       })
       .catch(err => {});
-  },
-  methods: {}
+    },
+    handleClick(row) {
+      console.log("传入row");
+    },
+    //分页逻辑
+    handleCurrentChange(cursor) {
+      console.log("当前页面-----", cursor);
+    },
+    handleSizeChange(limit) {
+      //limit  控制每页多少
+      console.log("每个页面的条数----", limit);
+    },
+     updateAcTree(data) {
+      console.log("冒泡所传过来的值：", data);
+      this.acTreeTmp = data;
+    }
+  }
 };
 </script>
 <style lang="less" scoped>
