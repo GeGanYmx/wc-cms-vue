@@ -69,7 +69,7 @@ export default {
             })
             .then(res => {
               console.log("测试访问数据成功", res);
-              localStorage.setItem("token", res.token);
+              sessionStorage.setItem("token", res.token);
               this.$message({
                 message: "登录成功！",
                 type: "success"

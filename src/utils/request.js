@@ -11,6 +11,7 @@ const service = axios.create({
 
 //请求拦截器
 service.interceptors.request.use( config => {
+    console.log('请求携带的token',sessionStorage.getItem('token'));
     return config;
 }, error => {
     console.log(error);
@@ -20,6 +21,7 @@ service.interceptors.request.use( config => {
 //响应拦截器
 service.interceptors.response.use(response => {
     if(response.status === 200){
+        console.log('服务器响应成功！',response.data);
         return response.data;
     }else{
         Promise.reject();
@@ -29,6 +31,8 @@ service.interceptors.response.use(response => {
     return Promise.reject();
 })
 
+let token=sessionStorage.getItem('token')||'adefaultstring8888';
+axios.defaults.headers.common['Authorization'] = token;
 // axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With';
 // function get(url,params={}){
 //     let token=sessionStorage.getItem('token')?sessionStorage.getItem('token'):'';

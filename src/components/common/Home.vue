@@ -8,6 +8,7 @@
             <div class="content">
                 <transition name="move" mode="out-in">
                     <keep-alive :include="tagsList">
+                        <!--子路由-->
                         <router-view></router-view>
                     </keep-alive>
                 </transition>
