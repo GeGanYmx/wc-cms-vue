@@ -57,6 +57,7 @@
         :th-label="acfilter"
         :tb-data="acTree"
         :check-mz.sync="checkMz"
+        :position="position.filterBox"
         @updateTree="updateAcTree"
         v-if="isFilterShow"
       ></v-columnFilter>
@@ -69,7 +70,7 @@
       :duration="200"
     >
       <!--驼峰命名转换-->
-      <v-exportb :tid="outTable.id" :tname="outTable.name" v-if="isEpFlieShow"></v-exportb>
+      <v-exportb :tid="outTable.id" :tname="outTable.name" :position="position.fileBox" v-if="isEpFlieShow"></v-exportb>
     </transition>
   </div>
 </template>
@@ -108,6 +109,17 @@ export default {
       //后台接收的控制表头的数据
       acTreeTmp: null,
       acfilter: null,
+      //控制弹出框的位置
+      position: {
+        filterBox: {
+          top: '108px',
+          right: '192px'
+        },
+        fileBox:{
+          top: '108px',
+          right: "80px"
+        }
+      }
     };
   },
   components:{

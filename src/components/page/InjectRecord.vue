@@ -64,6 +64,7 @@
         :th-label="injfilter"
         :tb-data="injTree"
         :check-mz.sync="checkMz"
+        :position="position.filterBox"
         @updateTree="updateinjTree"
         v-if="isFilterShow"
       ></v-columnFilter>
@@ -76,7 +77,7 @@
       :duration="200"
     >
       <!--驼峰命名转换-->
-      <v-exportb :tid="outTable.id" :tname="outTable.name" v-if="isEpFlieShow"></v-exportb>
+      <v-exportb :tid="outTable.id" :tname="outTable.name" :position="position.fileBox" v-if="isEpFlieShow"></v-exportb>
     </transition>
   </div>
 </template>
@@ -132,6 +133,17 @@ export default {
       outTable: {
         id: "injTable",
         name: "注入记录"
+      },
+        //控制弹出框的位置
+      position: {
+        filterBox: {
+          top: '108px',
+          right: '192px'
+        },
+        fileBox:{
+          top: '108px',
+          right: "80px"
+        }
       }
     };
   },

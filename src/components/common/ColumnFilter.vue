@@ -1,12 +1,12 @@
 <!--表格列过滤-->
 <template>
-  <div class="filter">
+  <div class="filter" :style="{top:position.top,right:position.right}">
     <el-checkbox
       :indeterminate="isIndeterminate"
       v-model="checkAll"
       @change="setCheckMzAll"
     >全选（勾选过滤）</el-checkbox>
-    <div style="margin: 15px 0;"></div>
+    <div style="margin: 8px 0;"></div>
     <el-checkbox-group v-model="tmp_checkMz" @change="setCheckMz">
       <el-checkbox
         v-for="(item, index) in thLabel"
@@ -30,7 +30,7 @@ export default {
     //表头标签
     thLabel: {
       type: Array,
-      // 不能写成：default:[]
+      // 不能写成：default:[]，非基本类型都使用工厂模式
       default: ()=>["未加载"]
     },
     //表格数据
@@ -41,6 +41,10 @@ export default {
     checkMz:{
         type:Array,
         default:()=>[]
+    },
+    position:{
+        type:Object,
+        default: ()=>{}
     }
   },
   watch:{
@@ -111,8 +115,8 @@ export default {
   height: auto;
   padding: 10px;
   border-radius: 5px;
-  top: 212px;
-  right: 192px;
+  // top: 212px;
+  // right: 192px;
   z-index: 5;
   box-shadow: 0 0 20px #99ccff;
 }

@@ -1,6 +1,6 @@
 <!--导出excel组件-->
 <template>
-  <div class="export" >
+  <div class="export" :style="{top:position.top,right:position.right}">
        <ul class="ep-ui">
           <li @click="createFile('csv')">导出到Csv文件</li>
           <li @click="createFile('xlsx')">导出到Excel文件</li>
@@ -21,8 +21,12 @@ export default {
         default: 'table' 
       },
       tname: {
-        type :String,
+        type: String,
         default: 'table'
+      },
+      position:{
+        type: Object,
+        default:()=>{}
       }
     },
     methods:{
@@ -73,8 +77,8 @@ export default {
   height: auto;
   padding: 10px;
   border-radius: 5px;
-  top: 212px;
-  right: 192px;
+  // top: 212px;
+  // right: 192px;
   z-index: 5;
   box-shadow: 0 0 20px #99ccff;
 }
