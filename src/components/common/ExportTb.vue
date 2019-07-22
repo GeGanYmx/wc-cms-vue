@@ -1,9 +1,11 @@
 <!--导出excel组件-->
 <template>
+  <div class="export" >
        <ul class="ep-ui">
           <li @click="createFile('csv')">导出到Csv文件</li>
           <li @click="createFile('xlsx')">导出到Excel文件</li>
        </ul>
+  </div>
 </template>
 <script>
 export default {
@@ -65,5 +67,10 @@ export default {
       cursor: pointer;
     }
   }
+//   div.export {
+//   .filter;
+//   right: 80px;
+//   box-shadow: 0 0 20px #99CCFF;
+// }
 </style>
 

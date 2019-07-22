@@ -64,7 +64,7 @@
       <div>
         <el-button type="primary">搜索</el-button>
         <el-button type="info">重置</el-button>
-        <div>
+        <!-- <div>
           <el-tooltip content="筛选列" placement="top">
             <el-button type="primary" icon="el-icon-s-fold" @click="dataFilter"></el-button>
           </el-tooltip>
@@ -74,7 +74,10 @@
           <el-tooltip content="导出" placement="top">
             <el-button type="primary" icon="el-icon-download" @click="exportFile"></el-button>
           </el-tooltip>
-        </div>
+        </div> -->
+        <!--子组件修改值，通过emit通知修改，sync捕获修改值并更改父组件中的属性值-->
+        <!--表头按钮组-->
+        <v-tbCommonBtn :filter.sync="isFilterShow" :ep-file.sync="isEpFlieShow"></v-tbCommonBtn>
       </div>
       <el-table
         :data="mzArr"
@@ -132,7 +135,7 @@
       leave-active-class="animated fadeOutLeft"
       :duration="200"
     >
-      <div class="filter" v-if="isFilterShow">
+      <!-- <div class="filter" v-if="isFilterShow">
         <el-checkbox
           :indeterminate="isIndeterminate"
           v-model="checkAll"
@@ -147,7 +150,10 @@
             style="display:block;"
           >{{item}}</el-checkbox>
         </el-checkbox-group>
-      </div>
+      </div> -->
+      <v-columnFilter :th-label="mzfilter" :tb-data="mzTree" 
+        @updateMzTree="updateMzTree" v-if="isFilterShow">
+      </v-columnFilter>
     </transition>
     <!--上传文件弹出框，待封装-->
     <transition
@@ -156,16 +162,19 @@
       leave-active-class="animated fadeOutRight"
       :duration="200"
     >
-      <div class="export" v-if="isEpFlieShow">
-        <!--驼峰命名转换-->
-        <v-exportb :tid="outTable.id" :tname="outTable.name"></v-exportb>
-      </div>
+         <!--驼峰命名转换-->
+      <!-- <div class="export" v-if="isEpFlieShow"> -->
+   
+        <v-exportb :tid="outTable.id" :tname="outTable.name" v-if="isEpFlieShow"></v-exportb>
+      <!-- </div> -->
     </transition>
   </div>
 </template>
 <script>
 import axios from "../../utils/request";
 import { setTimeout } from "timers";
+import vTbCommonBtn from '../common/TbCommonBtn';
+import vColumnFilter from '../common/ColumnFilter';
 import vExportb from '../common/ExportTb'
 
 export default {
@@ -245,6 +254,8 @@ export default {
   },
   //注册组件
   components:{
+    vTbCommonBtn,
+    vColumnFilter,
     vExportb
   },
   created() {
@@ -328,6 +339,10 @@ export default {
     print() {
       console.log("打印文件");
       window.print();
+    },
+    updateMzTree(data){
+       console.log('冒泡所传过来的值：',data);
+       this.mzTreeTmp=data;
     }
   }
 };
