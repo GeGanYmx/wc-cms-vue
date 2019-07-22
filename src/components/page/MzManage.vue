@@ -128,7 +128,7 @@
         :th-label="mzfilter"
         :tb-data="mzTree"
         :check-mz.sync="checkMz"
-        @updateMzTree="updateMzTree"
+        @updateTree="updateMzTree"
         v-if="isFilterShow"
       ></v-columnFilter>
     </transition>

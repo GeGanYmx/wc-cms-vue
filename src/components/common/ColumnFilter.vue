@@ -59,10 +59,10 @@ export default {
       console.log("this.checkMz=-----", this.tmp_checkMz);
       this.isIndeterminate = false;
       //操作mzArrTmp，mzTreeTmp
-      this.checkMz.forEach(element => {
+      this.tmp_checkMz.forEach(element => {
         mzTreeTmp = mzTreeTmp.filter(item => element !== item.label);
       });
-      this.$emit('updateMzTree',mzTreeTmp);
+      this.$emit('updateTree',mzTreeTmp);
       console.log("mzArrTmp改变------", mzTreeTmp);
     },
     //筛选列
@@ -81,7 +81,7 @@ export default {
       this.tmp_checkMz=this.checkMz;
       console.log("mzArrTmp改变------", mzTreeTmp);
       //通过冒泡将子组件的值传给父组件
-      this.$emit('updateMzTree',mzTreeTmp);
+      this.$emit('updateTree',mzTreeTmp);
     }
   },
   created() {
