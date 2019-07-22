@@ -7,7 +7,7 @@
       @change="setCheckMzAll"
     >全选（勾选过滤）</el-checkbox>
     <div style="margin: 15px 0;"></div>
-    <el-checkbox-group v-model="checkMz" @change="setCheckMz">
+    <el-checkbox-group v-model="tmp_checkMz" @change="setCheckMz">
       <el-checkbox
         v-for="(item, index) in thLabel"
         :label="item"
@@ -23,7 +23,7 @@ export default {
     return {
       checkAll: false,
       isIndeterminate: true,
-      checkMz: []
+      tmp_checkMz: []
     };
   },
   props: {
@@ -37,7 +37,17 @@ export default {
     tbData:{
         type: Array,
         default:()=>[]
+    },
+    checkMz:{
+        type:Array,
+        default:()=>[]
     }
+  },
+  watch:{
+      tmp_checkMz(val,oldVal){
+         console.log('监听事件------');
+         this.$emit('update:check-mz',val);
+      }
   },
   methods: {
     //筛选列（全选）
@@ -45,8 +55,8 @@ export default {
       //重新初始化
       let mzTreeTmp = this.tbData;
       console.log("触发全选事件", val);
-      this.checkMz = val ? this.thLabel : [];
-      console.log("this.checkMz=-----", this.checkMz);
+      this.tmp_checkMz = val ? this.thLabel : [];
+      console.log("this.checkMz=-----", this.tmp_checkMz);
       this.isIndeterminate = false;
       //操作mzArrTmp，mzTreeTmp
       this.checkMz.forEach(element => {
@@ -68,14 +78,18 @@ export default {
       checkMz.forEach(element => {
         mzTreeTmp = mzTreeTmp.filter(item => element !== item.label);
       });
+      this.tmp_checkMz=this.checkMz;
       console.log("mzArrTmp改变------", mzTreeTmp);
       //通过冒泡将子组件的值传给父组件
       this.$emit('updateMzTree',mzTreeTmp);
     }
   },
   created() {
-    console.log("表头传进来的列thLabel----", this.thLabel);
-    console.log("传进来的表格数据------",this.tbData);
+    this.tmp_checkMz=this.checkMz;
+    console.log('this.tmp_checkMz---',this.tmp_checkMz);
+  },
+  destroyed(){
+    console.log('columnFilter---组件销毁');
   }
 };
 </script>
