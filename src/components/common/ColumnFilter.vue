@@ -80,4 +80,26 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.filter {
+  position: absolute;
+  top: 29px;
+  // min-width: 150px;
+  min-height: 40px;
+  text-align: left;
+  overflow-y: auto;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 4px;
+  padding: 5px 0px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(210, 210, 210);
+  border-image: initial;
+  height: auto;
+  padding: 10px;
+  border-radius: 5px;
+  top: 212px;
+  right: 192px;
+  z-index: 5;
+  box-shadow: 0 0 20px #99ccff;
+}
 </style>
