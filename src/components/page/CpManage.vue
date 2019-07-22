@@ -13,7 +13,7 @@
         <v-tbCommonBtn :filter.sync="isFilterShow" :ep-file.sync="isEpFlieShow"></v-tbCommonBtn>
       </div>
       <el-table :data="cpArr" border style="font-size:0.8rem" stripe v-loading="loading" id="cpTable">
-        <blockquote v-for="item in cpTreeTmp" :key="item">
+        <blockquote v-for="(item , index) in cpTreeTmp" :key="index">
           <el-table-column :prop="item.prop" :label="item.label" width="230"></el-table-column>
         </blockquote>
 
@@ -100,7 +100,7 @@ export default {
     vExportb
   },
   created() {
-    this.getData(1,50);
+    this.getData(1,this.pagination.defaultLimit);
   },
   methods: {
     getData(cursor,limit) {
@@ -122,6 +122,17 @@ export default {
         })
         .catch(err => {});
     },
+     handleClick(row) {
+      console.log("传入row");
+    },
+    //分页逻辑
+    handleCurrentChange(cursor) {
+      console.log("当前页面-----", cursor);
+    },
+    handleSizeChange(limit) {
+      //limit  控制每页多少
+      console.log("每个页面的条数----", limit);
+    },
     updateCpTree(data){
      this.cpTreeTmp = data;
     }
@@ -134,6 +145,7 @@ export default {
   padding-top: 30px;
   width: 100%;
   min-height: 780px;
+  position: relative;
 }
 .arHeader {
   margin-bottom: 10px;

@@ -29,7 +29,7 @@
         v-loading="ele.loading"
         id="injTable"
       >
-        <blockquote v-for="item in injTreeTmp" :key="item">
+        <blockquote v-for="(item ,index) in injTreeTmp" :key="index">
           <el-table-column :prop="item.prop" :label="item.label" width="130"></el-table-column>
         </blockquote>
         <el-table-column label="操作" width="120">
@@ -91,19 +91,19 @@ export default {
       ele: {
         companys: [
           {
-            value: "选项1",
+            value: "1",
             label: "全部"
           },
           {
-            value: "选项1",
+            value: "2",
             label: "上海a网络科技"
           },
           {
-            value: "选项2",
+            value: "3",
             label: "上海b网络科技"
           },
           {
-            value: "选项3",
+            value: "4",
             label: "科大讯飞"
           }
         ],
@@ -188,6 +188,7 @@ export default {
   padding-top: 30px;
   width: 100%;
   min-height: 780px;
+  position: relative;
   & > article {
     .atheader {
       margin-bottom: 10px;

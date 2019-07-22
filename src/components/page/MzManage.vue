@@ -77,6 +77,7 @@
         id="mzTable"
       >
         <!-- <el-table-column fixed prop="ID" label="ID" width="80"></el-table-column>-->
+        <!--for循环尽量带上item和index-->
         <blockquote v-for="(item , index) in mzTreeTmp" :key="index">
           <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
         </blockquote>

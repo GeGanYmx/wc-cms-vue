@@ -14,7 +14,7 @@
         <v-tbCommonBtn :filter.sync="isFilterShow" :ep-file.sync="isEpFlieShow"></v-tbCommonBtn>
       </div>
       <el-table :data="acArr" border style="font-size:0.8rem" stripe v-loading="loading" id="acTable">
-        <blockquote v-for="item in acTreeTmp" :key="item">
+        <blockquote v-for="(item ,index) in acTreeTmp" :key="index">
           <el-table-column :prop="item.prop" :label="item.label" width="180"></el-table-column>
         </blockquote>
         <el-table-column label="操作" width="240">
@@ -162,6 +162,7 @@ export default {
   padding-top: 30px;
   width: 100%;
   min-height: 780px;
+  position: relative;
 }
 .arHeader {
   margin-bottom: 10px;
