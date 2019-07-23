@@ -117,7 +117,7 @@ export default {
   methods: {
     getData(cursor,limit) {
       axios
-        .get("cpManage", {
+        .get("http://rap2api.taobao.org/app/mock/225049/cpManage", {
           params: {
            cursor
           }

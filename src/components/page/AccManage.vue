@@ -133,7 +133,7 @@ export default {
   methods: {
     getData(cursor,limit){  
       //初始化数据
-     axios.get("acManage", {
+     axios.get("http://rap2api.taobao.org/app/mock/225049/acManage", {
         params: {
            cursor
         }

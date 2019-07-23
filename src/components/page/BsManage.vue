@@ -58,10 +58,10 @@ export default {
     };
   },
   created(){
-    axios.get('bsManage/mtTree').then(res=>{
+    axios.get('http://rap2api.taobao.org/app/mock/225049/bsManage/mtTree').then(res=>{
       this.mtTree=res.mtTree;
     }).catch(err=>{});
-    axios.get('bsManage',{
+    axios.get('http://rap2api.taobao.org/app/mock/225049/bsManage',{
       params:{
         cursor: 1
       }

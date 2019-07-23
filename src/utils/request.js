@@ -4,7 +4,7 @@ import axios from 'axios';
 const service = axios.create({
     // process.env.NODE_ENV === 'development' 来判断是否开发环境
     //配置基路径
-    baseURL: 'http://rap2api.taobao.org/app/mock/225049/',
+    // baseURL: 'http://rap2api.taobao.org/app/mock/225049/',
     // baseURL: 'http://localhost:3000/',
     timeout: 5000
 })

@@ -107,11 +107,11 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="1"
+        :current-page="pagination.curPage"
         :page-sizes="[10, 20, 50, 100, 200, 500]"
-        :page-size="pagination.defaultLimit"
+        :page-size="pagination.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="pagination.mzCount"
+        :total="pagination.dataCount"
         style="display:inline-block;margin-right:20px;"
       ></el-pagination>
       <el-button type="primary">新建</el-button>
@@ -208,8 +208,9 @@ export default {
       mzfilter: null,
       //分页控件
       pagination: {
-        mzCount: 0,
-        defaultLimit: 50
+        curPage: 1,
+        dataCount: 0,
+        pageSize: 20
       },
       //筛选列
       checkAll: false,
@@ -244,24 +245,37 @@ export default {
     vExportb
   },
   created() {
-    this.getMzData(1, this.pagination.defaultLimit);
+    this.getData(1, this.pagination.pageSize,'id','asc');
   },
   methods: {
-    getMzData(cursor, limit) {
-      console.log("cursor-----", cursor);
-      console.log("limit------", limit);
+    getData(pageIndex=1, pageSize,sortField,sort) {
+      this.loading=true;
       axios
-        .get("mzManage", {
+        .get("http://172.26.58.48/vda/getData", {
           params: {
-            cursor
+            pageSize,
+            pageIndex,
+            sortField,
+            sort:'asc'
           }
         })
         .then(res => {
-          console.log(res);
-          this.mzArr = res.mzArr;
-          this.pagination.mzCount = this.mzArr.length;
-          this.mzTree = res.mzTree;
-          this.mzfilter = res.mzTree.map(item => item.label);
+          console.log('测试------',res);
+          // this.mzArr = res.mzArr;
+          // this.pagination.dataCount = this.mzArr.length;
+          // this.mzTree = res.mzTree;
+          // this.mzfilter = res.mzTree.map(item => item.label);
+          // this.mzTreeTmp = this.mzTree.slice();
+          this.mzArr = res.pageData.data.map(item=>{
+            for(let i in item){
+              // console.log('循环的i的值：',i);
+              item[i]=item[i]||'暂无数据'
+            }
+            return item;
+            });
+          this.pagination.dataCount = res.count;
+          this.mzTree = res.pageData.cols;
+          this.mzfilter = this.mzTree.map(item => item.label);
           this.mzTreeTmp = this.mzTree.slice();
           console.log("mzArrTmp------", this.mzArrTmp, this.mzTreeTmp);
           setTimeout(() => {
@@ -275,12 +289,16 @@ export default {
       console.log("传入row");
     },
     //分页逻辑
-    handleCurrentChange(cursor) {
-      console.log("当前页面-----", cursor);
+    handleCurrentChange(pageIndex) {
+      this.pagination.curPage=pageIndex;
+      console.log("当前页面" ,this.pagination.curPage==pageIndex);
+      this.getData(this.pagination.curPage,this.pagination.pageSize,'id','asc');
     },
-    handleSizeChange(limit) {
+    handleSizeChange(pageSize) {
       //limit  控制每页多少
-      console.log("每个页面的条数----", limit);
+      this.pagination.pageSize=pageSize;
+      console.log("每个页面的条数----", this.pagination.pageSize , pageSize);
+      this.getData(this.pagination.curPage,this.pagination.pageSize,'id','asc')
     },
     updateMzTree(data) {
       console.log("冒泡所传过来的值：", data);

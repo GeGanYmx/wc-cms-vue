@@ -158,7 +158,7 @@ export default {
   methods: {
     getData(cursor,limit){
       axios
-      .get("injManage", {
+      .get("http://rap2api.taobao.org/app/mock/225049/injManage", {
         params: {
           cursor 
         }

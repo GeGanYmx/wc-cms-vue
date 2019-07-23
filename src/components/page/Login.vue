@@ -63,7 +63,7 @@ export default {
         if (valid) {
           localStorage.setItem("username", this.ruleForm.username);
           axios
-            .post("login", {
+            .post("http://rap2api.taobao.org/app/mock/225049/login", {
               username: this.ruleForm.username,
               password: this.ruleForm.password
             })
