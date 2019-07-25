@@ -58,19 +58,24 @@
             },
             // 设置标签
             setTags(route){
+                //some：当符合某个条件时，返回true
                 const isExist = this.tagsList.some(item => {
                     return item.path === route.fullPath;
                 })
                 if(!isExist){
                     if(this.tagsList.length >= 8){
+                        console.log('顶部导航栏已经超过8个，头删除');
                         this.tagsList.shift();
                     }
+                    //插入新的链接
+                        console.log('插入新链接-----',route);
                     this.tagsList.push({
                         title: route.meta.title,
                         path: route.fullPath,
                         name: route.matched[1].components.default.name
                     })
                 }
+                //通过事件总线发布事件
                 bus.$emit('tags', this.tagsList);
             },
             handleTags(command){
@@ -89,6 +94,7 @@
         },
         created(){
             this.setTags(this.$route);
+            console.log('当前的$route--------',this.$route);
             // 监听关闭当前页面的标签页
             bus.$on('close_current_tags', () => {
                 for (let i = 0, len = this.tagsList.length; i < len; i++) {
@@ -153,10 +159,12 @@
         transition: all .3s ease-in;
     }
 
+    /*未激活的标签hover时*/
     .tags-li:not(.active):hover {
         background: #f8f8f8;
+        // background: red;
     }
-
+    /*标签的激活态*/
     .tags-li.active {
         color: #fff;
     }

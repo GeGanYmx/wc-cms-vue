@@ -98,31 +98,31 @@
                     //         }
                     //     ]
                     // },
-                    // {
-                    //     icon: 'el-icon-lx-emoji',
-                    //     index: 'icon',
-                    //     title: '自定义图标'
-                    // },
-                    // {
-                    //     icon: 'el-icon-pie-chart',
-                    //     index: 'charts',
-                    //     title: 'schart图表'
-                    // },
-                    // {
-                    //     icon: 'el-icon-rank',
-                    //     index: '6',
-                    //     title: '拖拽组件',
-                    //     subs: [
-                    //         {
-                    //             index: 'drag',
-                    //             title: '拖拽列表',
-                    //         },
-                    //         {
-                    //             index: 'dialog',
-                    //             title: '拖拽弹框',
-                    //         }
-                    //     ]
-                    // },
+                    {
+                        icon: 'el-icon-lx-emoji',
+                        index: 'icon',
+                        title: '自定义图标'
+                    },
+                    {
+                        icon: 'el-icon-pie-chart',
+                        index: 'charts',
+                        title: 'schart图表'
+                    },
+                    {
+                        icon: 'el-icon-rank',
+                        index: '6',
+                        title: '拖拽组件',
+                        subs: [
+                            {
+                                index: 'drag',
+                                title: '拖拽列表',
+                            },
+                            {
+                                index: 'dialog',
+                                title: '拖拽弹框',
+                            }
+                        ]
+                    },
                     // {
                     //     icon: 'el-icon-lx-global',
                     //     index: 'i18n',

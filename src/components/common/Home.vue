@@ -7,6 +7,7 @@
             <!--组件渲染-->
             <div class="content">
                 <transition name="move" mode="out-in">
+                    <!--keep-alive:include=》缓存tags中存在的标签-->
                     <keep-alive :include="tagsList">
                         <!--子路由-->
                         <router-view></router-view>

@@ -247,7 +247,7 @@ export default {
   },
   created() {
     this.getData(1, this.pagination.pageSize,'id','asc');
-    console.log('noErr---',this.noErr)
+    console.log('媒资管理组件被加载--------');
   },
   methods: {
     getData(pageIndex=1, pageSize,sortField,sort) {
