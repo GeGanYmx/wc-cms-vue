@@ -30,7 +30,7 @@
           <el-button type="warning">一键刷新</el-button>
         </div>
         <el-table :data="bsArr" border style="font-size:0.8rem" stripe v-loading="loading">
-          <blockquote v-for="item in bsTree" :key="item">
+          <blockquote v-for="(item , index) in bsTree" :key="index">
             <el-table-column :prop="item.prop" :label="item.label" width="180"></el-table-column>
           </blockquote>
 
@@ -54,7 +54,11 @@ export default {
       mtTree: null,
       bsArr: null,
       bsTree: null,
-      loading: true
+      loading: true,
+      defaultProps: {
+        children: 'children',
+        label: 'label'
+      }
     };
   },
   created(){

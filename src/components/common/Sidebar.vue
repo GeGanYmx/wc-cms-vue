@@ -152,12 +152,12 @@
                     //新添项
                      {
                         icon: 'el-icon-lx-edit',
-                        index: '/mzManage',
+                        index: 'mzManage',
                         title: '媒资管理'
                     },
                     {
                         icon: 'el-icon-lx-record',
-                        index: '/injRecord',
+                        index: 'injRecord',
                         title: '注入记录'
                     },
                     {

@@ -82,7 +82,7 @@
           <el-table-column :prop="item.prop" :label="item.label" width="120"></el-table-column>
         </blockquote>
 
-        <el-table-column label="操作" width="200">
+        <el-table-column label="操作" width="200" v-if="noErr">
           <template slot-scope="scope">
             <el-button
               @click="handleClick(scope.row)"
@@ -219,7 +219,8 @@ export default {
       isFilterShow: false,
       isEpFlieShow: false,
       loading: true,
-
+      //控制表格操作按钮是否显示
+      noErr: true,
       //导出的表格信息
       outTable: {
         id: "mzTable",
@@ -246,6 +247,7 @@ export default {
   },
   created() {
     this.getData(1, this.pagination.pageSize,'id','asc');
+    console.log('noErr---',this.noErr)
   },
   methods: {
     getData(pageIndex=1, pageSize,sortField,sort) {
@@ -283,7 +285,12 @@ export default {
           }, 500);
           // console.log('mzfilter------',this.mzfilter);
         })
-        .catch(err => {});
+        .catch(err => {
+          console.log('mz链接错误----');
+           this.$message.error(`${err.message}`);
+           this.loading = false;
+           this.noErr = false;
+        });
     },
     handleClick(row) {
       console.log("传入row");
