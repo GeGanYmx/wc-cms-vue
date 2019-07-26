@@ -31,16 +31,23 @@
             }
         },
         methods: {
+            //为激活的路由添加激活样式
             isActive(path) {
                 return path === this.$route.fullPath;
             },
             // 关闭单个标签
             closeTags(index) {
+                //tagList删除关闭标签并返回删除项
                 const delItem = this.tagsList.splice(index, 1)[0];
-                const item = this.tagsList[index] ? this.tagsList[index] : this.tagsList[index - 1];
+                //删除项可能是最后一项也可能是中间项，删除中间项，则tagsList[index]存在
+                const item = this.tagsList[index] ? this.tagsList[index] : this.tagsList[index - 1];        
+                //item不存在，tagList为空
                 if (item) {
+                    //若删除项是当前激活项，则路由跳转到item.path，否则只删除
                     delItem.path === this.$route.fullPath && this.$router.push(item.path);
+                    console.log('delItem------',delItem.path);
                 }else{
+                     //当tagList为空时，默认跳转到/
                     this.$router.push('/');
                 }
             },
@@ -58,10 +65,11 @@
             },
             // 设置标签
             setTags(route){
-                //some：当符合某个条件时，返回true
+                //some：检查当前点击的标签是否已经存在tags中
                 const isExist = this.tagsList.some(item => {
                     return item.path === route.fullPath;
                 })
+                //新标签则插入
                 if(!isExist){
                     if(this.tagsList.length >= 8){
                         console.log('顶部导航栏已经超过8个，头删除');
@@ -78,8 +86,9 @@
                 //通过事件总线发布事件
                 bus.$emit('tags', this.tagsList);
             },
+            //控制是关闭所有还是关闭其他
             handleTags(command){
-                command === 'other' ? this.closeOther() : this.closeAll();
+                command === 'other' && this.closeOther() || this.closeAll();
             }
         },
         computed: {
@@ -88,15 +97,22 @@
             }
         },
         watch:{
+            //监控$route变化（route包含当前激活的路由的路径和参数等信息）
+            //watch监控属性值变化，$on监控发布的事件
             $route(newValue, oldValue){
+                console.log('监控route变化-------',oldValue,newValue);
+                //当前路由变化时，设置tags
                 this.setTags(newValue);
             }
         },
         created(){
+            //tags初始化时保留激活的路由
             this.setTags(this.$route);
-            console.log('当前的$route--------',this.$route);
-            // 监听关闭当前页面的标签页
+            console.log(this.tagsList);
+            console.log('初始化激活的路由--------',this.$route);
+            //暂时没用到
             bus.$on('close_current_tags', () => {
+                console.log('测试on=》current-tages')
                 for (let i = 0, len = this.tagsList.length; i < len; i++) {
                     const item = this.tagsList[i];
                     if(item.path === this.$route.fullPath){

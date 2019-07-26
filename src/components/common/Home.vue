@@ -45,6 +45,7 @@
                     msg[i].name && arr.push(msg[i].name);
                 }
                 this.tagsList = arr;
+                console.log('被缓存的组件数据------',this.tagsList);
             })
         }
     }
