@@ -8,7 +8,10 @@
             <div class="content">
                 <transition name="move" mode="out-in">
                     <!--keep-alive:缓存符合条件的组件-->
-                    <keep-alive :include="tagsList">
+                    <!-- <keep-alive :include="tagsList">
+                        <router-view></router-view>
+                    </keep-alive> -->
+                     <keep-alive :include="cacheComp">
                         <router-view></router-view>
                     </keep-alive>
                 </transition>
@@ -32,7 +35,19 @@
         components:{
             vHead, vSidebar, vTags
         },
+        computed:{
+            cacheComp(){
+                // console.log('计算属性----',this.$store.getters.cacheComp)
+                //当store中的cacheComp状态改变时，会自动触发这儿的更新
+                 const arr = this.$store.getters.cacheComp.filter(cItem=>{
+                    return this.tagsList.find(tItem=>{console.log('tItem----',tItem);return tItem == cItem}) && true || false;
+                });
+                console.log('是否应该被缓存-----',arr);
+                return arr;
+            }
+        },
         created(){
+            console.log('tags初始化----');
             bus.$on('collapse', msg => {
                 this.collapse = msg;
             })

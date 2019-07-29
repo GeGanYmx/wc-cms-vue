@@ -20,7 +20,7 @@
         <el-table-column label="操作" width="100">
           <template slot-scope="scope">
             <el-button type="primary" icon="el-icon-edit" circle @click="handleClick(scope.row)"></el-button>
-            <el-button type="danger" icon="el-icon-delete" circle @click="handleClick(scope.row)"></el-button>
+            <el-button type="danger" icon="el-icon-delete" circle @click="del(scope.row)"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -132,11 +132,16 @@ export default {
           setTimeout(() => {
             this.loading = false;
           }, 500);
+        const compName = this.$options.name;
+        !this.$store.getters.cacheComp.find(item=>item == compName) && this.$store.dispatch('addCacheComp',compName);
         })
         .catch(err => {});
     },
-     handleClick(row) {
-      console.log("传入row");
+    del(row){
+      console.log('删除行----',row);
+      //当更改数据时，则该组件从cacheComp中移除
+      this.$store.dispatch('delCacheComp',this.$options.name);
+      console.log('当前的caCache',this.$store.getters.cacheComp);
     },
     //分页逻辑
     handleCurrentChange(cursor) {

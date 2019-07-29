@@ -28,7 +28,7 @@
               style="color: #909399"
             >启用</el-button>
             <el-button type="text" size="small" style="color: #f56c6c">禁用</el-button>
-            <el-button type="text" size="small" style="color: #f56c6c">删除</el-button>
+            <el-button type="text" size="small" style="color: #f56c6c" @click="del(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -148,11 +148,16 @@ export default {
         setTimeout(() => {
           this.loading=false;
         }, 500);
+        const compName = this.$options.name;
+        !this.$store.getters.cacheComp.find(item=>item == compName) && this.$store.dispatch('addCacheComp',compName);
       })
       .catch(err => {});
     },
-    handleClick(row) {
-      console.log("传入row");
+   del(row){
+      console.log('删除行----',row);
+      //当更改数据时，则该组件从cacheComp中移除
+      this.$store.dispatch('delCacheComp',this.$options.name);
+      console.log('当前的caCache',this.$store.getters.cacheComp);
     },
     //分页逻辑
     handleCurrentChange(cursor) {

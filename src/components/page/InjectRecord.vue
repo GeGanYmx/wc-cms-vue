@@ -174,6 +174,12 @@ export default {
         setTimeout(() => {
           this.ele.loading = false;
         }, 500);
+        //将获取到data的组件，配合tagsList进行缓存
+        console.log('当前组件----',this.$options.name);
+        const compName = this.$options.name;
+        //防止cacheComp再次插入相同数据
+        !this.$store.getters.cacheComp.find(item=>item == compName) && this.$store.dispatch('addCacheComp',compName);
+        console.log('vuex状态管理------',this.$store.getters.cacheComp);
       })
       .catch(err => {});
     },
@@ -191,6 +197,10 @@ export default {
     },
     del(row){
       console.log('删除行----',row);
+      //发送请求，当服务端更改数据成功时，将该组件从cacheComp中移除
+      //发送请求...
+      this.$store.dispatch('delCacheComp',this.$options.name);
+      // console.log('当前的caCache',this.$store.getters.cacheComp);
     }
   }
 };

@@ -5,6 +5,8 @@ import axios from 'axios';
 import ElementUI from 'element-ui';
 import VueI18n from 'vue-i18n';
 import { messages } from './components/common/i18n';
+import Vuex from 'vuex';
+import store from './store/index';
 import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
 import './assets/css/icon.css';
@@ -57,8 +59,9 @@ router.beforeEach((to, from, next) => {
 })
 
 
-new Vue({
+new Vue({   
     router,
     i18n,
+    store,
     render: h => h(App)
 }).$mount('#app')
