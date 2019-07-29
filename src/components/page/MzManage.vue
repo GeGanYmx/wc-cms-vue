@@ -154,6 +154,7 @@ import vColumnFilter from "../common/ColumnFilter";
 import vExportb from "../common/ExportTb";
 
 export default {
+  name:'mzManage',
   data() {
     return {
       //元素绑定值
@@ -247,7 +248,10 @@ export default {
   },
   created() {
     this.getData(1, this.pagination.pageSize,'id','asc');
-    console.log('媒资管理组件被加载--------');
+    console.log('首次初始化');
+  },
+  activated(){
+    console.log('激活keep-alive中的缓存mzManage');
   },
   methods: {
     getData(pageIndex=1, pageSize,sortField,sort) {

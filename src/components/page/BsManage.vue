@@ -49,6 +49,7 @@
 <script>
 import axios from "../../utils/request";
 export default {
+  name:'bsManage',
   data() {
     return {
       mtTree: null,

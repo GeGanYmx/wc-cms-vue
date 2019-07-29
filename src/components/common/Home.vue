@@ -7,9 +7,8 @@
             <!--组件渲染-->
             <div class="content">
                 <transition name="move" mode="out-in">
-                    <!--keep-alive:include=》缓存tags中存在的标签-->
+                    <!--keep-alive:缓存符合条件的组件-->
                     <keep-alive :include="tagsList">
-                        <!--子路由-->
                         <router-view></router-view>
                     </keep-alive>
                 </transition>
@@ -42,8 +41,10 @@
             bus.$on('tags', msg => {
                 let arr = [];
                 for(let i = 0, len = msg.length; i < len; i ++){
+                    // console.log('循环msg[i]-----' , msg[i]);
                     msg[i].name && arr.push(msg[i].name);
                 }
+                // console.log('arr--',arr);
                 this.tagsList = arr;
                 console.log('被缓存的组件数据------',this.tagsList);
             })

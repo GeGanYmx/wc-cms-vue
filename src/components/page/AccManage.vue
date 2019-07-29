@@ -81,6 +81,7 @@ import vTbCommonBtn from "../common/TbCommonBtn";
 import vColumnFilter from "../common/ColumnFilter";
 import vExportb from "../common/ExportTb";
 export default {
+  name:'accManage',
   data() {
     return {
       compName: "",

@@ -45,7 +45,7 @@
                 if (item) {
                     //若删除项是当前激活项，则路由跳转到item.path，否则只删除
                     delItem.path === this.$route.fullPath && this.$router.push(item.path);
-                    console.log('delItem------',delItem.path);
+                    // console.log('delItem------',delItem.path);
                 }else{
                      //当tagList为空时，默认跳转到/
                     this.$router.push('/');
@@ -72,19 +72,21 @@
                 //新标签则插入
                 if(!isExist){
                     if(this.tagsList.length >= 8){
-                        console.log('顶部导航栏已经超过8个，头删除');
+                        // console.log('顶部导航栏已经超过8个，头删除');
                         this.tagsList.shift();
                     }
                     //插入新的链接
-                        console.log('插入新链接-----',route);
+                        // console.log('插入新链接-----',route);
                     this.tagsList.push({
                         title: route.meta.title,
                         path: route.fullPath,
+                        //组件名字，需要配置组件的name
                         name: route.matched[1].components.default.name
                     })
                 }
                 //通过事件总线发布事件
                 bus.$emit('tags', this.tagsList);
+                // console.log('this.tagsList----',this.tagsList);
             },
             //控制是关闭所有还是关闭其他
             handleTags(command){
@@ -100,7 +102,7 @@
             //监控$route变化（route包含当前激活的路由的路径和参数等信息）
             //watch监控属性值变化，$on监控发布的事件
             $route(newValue, oldValue){
-                console.log('监控route变化-------',oldValue,newValue);
+                // console.log('监控route变化-------',oldValue,newValue);
                 //当前路由变化时，设置tags
                 this.setTags(newValue);
             }
@@ -108,11 +110,11 @@
         created(){
             //tags初始化时保留激活的路由
             this.setTags(this.$route);
-            console.log(this.tagsList);
-            console.log('初始化激活的路由--------',this.$route);
+            // console.log(this.tagsList);
+            // console.log('初始化激活的路由--------',this.$route);
             //暂时没用到
             bus.$on('close_current_tags', () => {
-                console.log('测试on=》current-tages')
+                // console.log('测试on=》current-tages')
                 for (let i = 0, len = this.tagsList.length; i < len; i++) {
                     const item = this.tagsList[i];
                     if(item.path === this.$route.fullPath){
