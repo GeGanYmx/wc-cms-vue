@@ -34,8 +34,8 @@
         </blockquote>
         <el-table-column label="操作" width="120">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" circle @click="handleClick(scope.row)"></el-button>
-            <el-button type="danger" icon="el-icon-delete" circle @click="handleClick(scope.row)"></el-button>
+            <el-button type="primary" icon="el-icon-edit" circle @click="update(scope.row)"></el-button>
+            <el-button type="danger" icon="el-icon-delete" circle @click="del(scope.row)"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -181,9 +181,6 @@ export default {
       console.log("冒泡所传过来的值：", data);
       this.injTreeTmp = data;
     },
-    handleClick(row) {
-      console.log("传入row");
-    },
     //分页逻辑
     handleCurrentChange(cursor) {
       console.log("当前页面-----", cursor);
@@ -192,6 +189,9 @@ export default {
       //limit  控制每页多少
       console.log("每个页面的条数----", limit);
     },
+    del(row){
+      console.log('删除行----',row);
+    }
   }
 };
 </script>

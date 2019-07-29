@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import vHead from './Header.vue';
+    import vHead from './Header.vue'
     import vSidebar from './Sidebar.vue';
     import vTags from './Tags.vue';
     import bus from './bus';
@@ -46,7 +46,7 @@
                 }
                 // console.log('arr--',arr);
                 this.tagsList = arr;
-                console.log('被缓存的组件数据------',this.tagsList);
+                // console.log('被缓存的组件数据------',this.tagsList);
             })
         }
     }

@@ -250,6 +250,7 @@ export default {
     this.getData(1, this.pagination.pageSize,'id','asc');
     console.log('首次初始化');
   },
+  /*配有keep-alive时的特有方法 */
   activated(){
     console.log('激活keep-alive中的缓存mzManage');
   },
