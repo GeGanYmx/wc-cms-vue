@@ -4,7 +4,7 @@
         <div class="collapse-btn" @click="collapseChage">
             <i class="el-icon-menu"></i>
         </div>
-        <div class="logo"></div>
+        <div class="logo">Vue后台管理系统</div>
         <div class="header-right">
             <div class="header-user-con">
                 <!-- 全屏显示 -->
@@ -127,9 +127,9 @@
     .header .logo{
         float: left;
         width:350px;
-        /* line-height: 70px; */
+        line-height: 70px;
         height: 70px;
-        background-image: url('../../assets/img/logo.png');
+        /* background-image: url('../../assets/img/logo.png'); */
         background-size: cover;
     }
     .header-right{
