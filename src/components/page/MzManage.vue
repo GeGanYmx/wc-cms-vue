@@ -183,19 +183,19 @@ export default {
         ],
         provinces: [
           {
-            value: "1",
+            value: "sh",
             label: "上海市"
           },
           {
-            value: "2",
+            value: "bj",
             label: "北京市"
           },
           {
-            value: "3",
+            value: "fj",
             label: "福建省"
           },
           {
-            value: "4",
+            value: "zj",
             label: "浙江省"
           }
         ]
